@@ -1,0 +1,38 @@
+/* SIZES */
+.h10{
+    height: 100%;
+}
+.h8{
+    height: 80%;
+}
+.h6{
+    height: 60%;
+}
+.h5{
+    height: 50%;
+}
+.h4{
+    height: 40%;
+}
+.h2{
+    height: 20%;
+}
+
+.w10{
+    width: 100%;
+}
+.w8{
+    width: 80%;
+}
+.w6{
+    width: 60%;
+}
+.w5{
+    width: 50%;
+}
+.w4{
+    width: 40%;
+}
+.w2{
+    width: 20%;
+}

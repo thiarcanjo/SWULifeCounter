@@ -1,0 +1,124 @@
+body{
+    background-color: #000;
+    margin: 0px;
+    padding: 0px;
+    display: flex; /* Usa Flexbox para layout */
+    flex-direction: column; /* Alinha os itens na vertical */
+    align-items: center; /* Centraliza os itens horizontalmente */
+    justify-content: center; /* Centraliza os itens verticalmente */
+    font-family: var(--font-chakra);
+    overflow: hidden;
+    color: #FFF;
+}
+
+main{
+    display: flex;
+	flex-direction: column;
+    flex-wrap: wrap;
+	justify-content: center; /* Centraliza horizontalmente */
+    align-items: center;
+    padding: 0px;
+    width: 100vw;
+    height: 95vh;
+}
+
+.top-menu{
+    position: absolute;
+    box-sizing: border-box;
+    top: 5px;
+    left: 0;
+    align-items: center;
+    width: 120%;
+    height: 20px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #FFF;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10;
+}
+.top-menu .gohome{
+    display: flex;
+    justify-content: center;
+}
+.top-menu span{
+    margin: 0px 10px;
+    font-size: 16px;
+    color: #FFF;
+}
+
+/* Estiliza o rodapé da página */
+footer {
+    display: flex;
+    background-color: #F5F7F8; /* Cor de fundo do rodapé */
+    color: #45474B; /* Cor do texto */
+    text-align: justify;
+    align-items: center;
+    justify-content: baseline;
+    padding: 5px;
+    margin-top: 30px;
+    margin-left: 70px;
+    width: 110%;
+    height: auto;
+    font-size: 0.9rem;
+}
+
+.row{
+	display: flex;
+	flex-direction: row;
+    width: 100%;
+}
+.col{
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+}
+
+/* POPUP */
+.swal2-container{
+    transform: rotate(90deg);
+    z-index: 9999;
+}
+
+/* EPIC BUTTON */
+.epic_token{
+    display: flex;
+	padding: 0;
+    flex-direction: column; /* Stack elements vertically */
+    justify-content: center;
+    align-items: center;
+    width: 30%;
+    height: 100%;
+    margin: 20px;
+    background-color: transparent;
+    overflow: visible;
+}
+.epic_token button{
+    border: none;
+    padding: 2px;
+	margin: 0;
+    background-color: transparent;
+    align-items: center;
+    border-radius: 5px;
+    width: auto;
+    height: 90%;
+    cursor: pointer;
+    justify-content: center;
+    filter: grayscale(100%); /* Imagem em tons de cinza */
+}
+.epic_token button img {
+    width: auto;
+    height: 100%;
+    object-fit: cover;
+    transition: opacity 0.3s ease; /* Transição para a imagem também */
+}
+.epic_token button:hover {
+    filter: none;
+
+}
+.epic_token button:hover img {
+    opacity: 0.9; /* Levemente mais transparente no hover */
+    width: 110%;
+}
+.epicUsed{
+    filter: grayscale(100%);
+}
