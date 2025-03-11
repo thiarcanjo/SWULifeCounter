@@ -12,35 +12,38 @@ class Session
     */
    private static function init()
    {
-    if(session_status() !== PHP_SESSION_ACTIVE){
-        session_start();
-        error_log("\nSESSION STARTED\n");
-        return true;
-    }
-    else return false;
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+            error_log("Sessão iniciada em Session::init(). ID da sessão: " . session_id());
+        } else {
+            error_log("Sessão já iniciada em Session::init(). ID da sessão: " . session_id());
+        }
    }
 
    /**
     * CREATE A Premier Game
     * @return Premier
     */
-   public static function start()
-   {
-        // INICIAR A SESSION
+    public static function start()
+    {
         self::init();
-
+        error_log("Session::start() chamado. ID da sessão: " . session_id());
         if(!isset($_SESSION['premier'])){
             try {
                 $Premier = new Premier();
                 $_SESSION['premier'] = $Premier;
+                error_log("Premier criado e armazenado na sessão.");
                 return true;
             } catch (Exception $e) {
                 error_log("Erro ao criar Premier: " . $e->getMessage());
                 return false;
             }
         }
-        else return true;
-   }
+        else {
+            error_log("Premier já existe na sessão.");
+            return true;
+        }
+    }
 
    /**
     * GET Premier ID
@@ -70,11 +73,15 @@ class Session
     */
     public static function getPremier()
     {
-        // INICIAR A SESSION
         self::init();
-
-        if(isset($_SESSION["premier"]) && ($_SESSION["premier"] instanceof Premier)) return $_SESSION['premier'];
-        else return false;
+        error_log("Session::getPremier() chamado. ID da sessão: " . session_id());
+        if (isset($_SESSION['premier'])) {
+            error_log("Premier encontrado na sessão.");
+            return $_SESSION['premier'];
+        } else {
+            error_log("Premier não encontrado na sessão.");
+            return false;
+        }
     }
 
     public static function close()

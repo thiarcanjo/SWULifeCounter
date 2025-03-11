@@ -1,5 +1,4 @@
 <?php
-ob_start();
 require_once __DIR__.'/UTILS/autoload.php';
 use \SQL\Premier;
 use \UTILS\Session;
@@ -12,25 +11,27 @@ elseif(isset($_GET['player'])){
         if(!isset($_GET['base_life'])){
             if(isset($_GET['base']) && isset($_GET['leader'])){
                 $Premier->setPlayer($_GET['player'], $_GET['base'], $_GET['leader']);
-               
+
                 if ($Premier->save()){
                     $msg = "PLAYER INSERTED/UDPDATED ON DB";
-                    
                     Session::setPremier($Premier);
-                    
                     error_log("\n" . $msg . "\nAJAX: " . $Premier->toString() . "\n---------------------------\n");
                     echo $msg;
                 }
                 else{
                     $msg = "ERROR ON DB INSERT PROCESS";
-                    header("HTTP/1.1 400 Bad Request");
+                    if(!headers_sent()){
+                        header("HTTP/1.1 400 Bad Request");
+                    }
                     error_log($msg);
                     echo $msg;
                 }
             }
             else{
                 $msg = "ERROR ON DB UPDATE PROCESS";
-                header("HTTP/1.1 400 Bad Request");
+                if(!headers_sent()){
+                    header("HTTP/1.1 400 Bad Request");
+                }
                 error_log($msg);
                 echo $msg;
             }
@@ -49,7 +50,6 @@ elseif(isset($_GET['player'])){
         error_log($msg);
         echo $msg;
     }
-    
     Session::setPremier($Premier);
 }
 elseif(Session::start()){

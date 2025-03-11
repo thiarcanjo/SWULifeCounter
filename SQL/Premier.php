@@ -221,6 +221,15 @@ class Premier extends Model
 
       return $return;
   }
+
+  public function __sleep() {
+   error_log("Premier::__sleep() chamado. premier_id: " . $this->premier_id);
+   return array('premier_id', 'player_1', 'player_2', /* outras propriedades */);
+   }
+
+   public function __wakeup() {
+      error_log("Premier::__wakeup() chamado. premier_id: " . $this->premier_id);
+   }
 }
 
 ?>
