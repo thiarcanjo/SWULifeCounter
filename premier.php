@@ -1,4 +1,5 @@
 <?php
+ob_start();
 require_once __DIR__.'/UTILS/autoload.php';
 use \SQL\Premier;
 use \UTILS\Session;
@@ -9,15 +10,23 @@ if(isset($_GET['session'])){
 elseif(isset($_GET['player'])){
     if($Premier = Session::getPremier()){
         if(!isset($_GET['base_life'])){
-            $Premier->setPlayer($_GET['player'], $_GET['base'], $_GET['leader']);
-
-            if($Premier->save()){
-                $msg = "PLAYER UPDATED ON DB";
-
-                Session::setPremier($Premier);
-
-                error_log("\n".$msg."\nAJAX: ".$Premier->toString()."\n---------------------------\n");
-                echo $msg;
+            if(isset($_GET['base']) && isset($_GET['leader'])){
+                $Premier->setPlayer($_GET['player'], $_GET['base'], $_GET['leader']);
+               
+                if ($Premier->save()){
+                    $msg = "PLAYER INSERTED/UDPDATED ON DB";
+                    
+                    Session::setPremier($Premier);
+                    
+                    error_log("\n" . $msg . "\nAJAX: " . $Premier->toString() . "\n---------------------------\n");
+                    echo $msg;
+                }
+                else{
+                    $msg = "ERROR ON DB INSERT PROCESS";
+                    header("HTTP/1.1 400 Bad Request");
+                    error_log($msg);
+                    echo $msg;
+                }
             }
             else{
                 $msg = "ERROR ON DB UPDATE PROCESS";
@@ -26,29 +35,17 @@ elseif(isset($_GET['player'])){
                 echo $msg;
             }
         }
-        elseif(isset($_GET['base']) && isset($_GET['leader'])){
-            $Premier->setPlayer($_GET['player'], $_GET['base'], $_GET['leader']);
-            if ($Premier->save()){
-                $msg = "PLAYER INSERTED ON DB";
-                error_log("\n" . $msg . "\nAJAX: " . $Premier->toString() . "\n---------------------------\n");
-                echo $msg;
-            }
-            else{
-                $msg = "ERROR ON DB INSERT PROCESS";
-                header("HTTP/1.1 400 Bad Request");
-                error_log($msg);
-                echo $msg;
-            }
-        }
         elseif($Premier->updateGame($_GET['player'], $_GET['base_life'])){
-            $msg = "PLAYER UPDATED ON DB";
+            $msg = "BASE LIFE UPDATED ON DB";
             error_log("\n" . $msg . "\nAJAX: " . $Premier->toString() . "\n---------------------------\n");
             echo $msg;
         }
     }
     else{
         $msg = "ERROR, Premier não encontrado na sessão";
-        header("HTTP/1.1 400 Bad Request");
+        if(!headers_sent()){
+            header("HTTP/1.1 400 Bad Request");
+        }
         error_log($msg);
         echo $msg;
     }
