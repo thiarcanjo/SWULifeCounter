@@ -55,6 +55,11 @@ class DAO{
       }
    }
 
+   public function getConnection()
+   {
+       return $this->connection;
+   }
+
   /**
    * Método responsável por executar queries dentro do banco de dados
    * @param  string $query
@@ -82,7 +87,6 @@ class DAO{
    private function closeConnection()
    {
       $this->connection = null;
-      unset($this->connection);
    }
 
   /**
@@ -124,6 +128,7 @@ class DAO{
 
     //EXECUTA A QUERY
     $stmt = $this->execute($query);
+    $this->closeConnection();
     return $stmt;
   }
 
@@ -144,7 +149,9 @@ class DAO{
     $stmt = $this->execute($query,array_values($values));
     if($last_id) $id = $this->connection->lastInsertId();
     else $id = true;
+
     $stmt->closeCursor();
+    $this->closeConnection();
 
     return $id;
   }
@@ -165,6 +172,7 @@ class DAO{
     //EXECUTAR A QUERY
     $stmt = $this->execute($query,array_values($values));
     $stmt->closeCursor();
+    $this->closeConnection();
 
     //RETORNA SUCESSO
     return true;
@@ -182,6 +190,7 @@ class DAO{
     //EXECUTA A QUERY
     $stmt = $this->execute($query);
     $stmt->closeCursor();
+    $this->closeConnection();
 
     //RETORNA SUCESSO
     return true;

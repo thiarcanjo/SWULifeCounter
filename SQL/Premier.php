@@ -40,7 +40,10 @@ class Premier extends Model
          $this->leader_epic[1]   = $vars['leader_2_epic'] ?? false;
       }
 
-      if(Session::getPremier()) $this->premier_id = Session::getPremierID();
+      if($Premier = Session::getPremier()){
+         $this->premier_id = $Premier->premier_id;
+         $this->set($this->getById($this->premier_id));
+      }
       elseif(!($this->premier_id) && !(Session::getPremier())) $this->setPremierID();
    }
 
