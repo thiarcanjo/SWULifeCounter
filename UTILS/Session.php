@@ -39,7 +39,7 @@ class Session
                 return false;
             }
         }
-        else return false;
+        else return true;
    }
 
    /**
