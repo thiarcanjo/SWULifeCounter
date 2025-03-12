@@ -1,9 +1,6 @@
 <?php
 namespace UTILS;
 use \SQL\Premier;
-use \SQL\PremierDAO;
-use \SQL\Model;
-use \SQL\DAO;
 
 class Session
 {
@@ -12,12 +9,7 @@ class Session
     */
    private static function init()
    {
-        if (session_status() == 1) {
-            session_start();
-            error_log("Sessão iniciada em Session::init(). ID da sessão: " . session_id());
-        } else {
-            error_log("Sessão já iniciada em Session::init(). ID da sessão: " . session_id());
-        }
+        if (session_status() == 1) session_start();
    }
 
    /**
@@ -27,12 +19,10 @@ class Session
     public static function start()
     {
         self::init();
-        error_log("Session::start() chamado. ID da sessão: " . session_id());
         if(!isset($_SESSION['premier_id'])){
             try {
                 $Premier = new Premier();
                 $_SESSION['premier_id'] = $Premier->premier_id;
-                error_log("Premier ID criado e armazenado na sessão. ID da sessão: " . session_id() . ", premier_id: " . $_SESSION['premier_id']);
                 return true;
             } catch (Exception $e) {
                 error_log("Erro ao criar Premier: " . $e->getMessage());
@@ -40,7 +30,6 @@ class Session
             }
         }
         else {
-            error_log("Premier ID já existe na sessão. ID da sessão: " . session_id() . ", premier_id: " . $_SESSION['premier_id']);
             return true;
         }
     }
@@ -48,18 +37,10 @@ class Session
    /**
     * GET Premier ID
     */
-    public static function getPremier()
+    public static function getPremierID()
     {
-        self::init();
         if (isset($_SESSION['premier_id'])) {
-            try {
-                $Premier = new Premier($_SESSION['premier_id']); // Cria um novo Premier com o ID da sessão
-                error_log("Premier criado com ID da sessão. ID da sessão: " . session_id() . ", premier_id: " . $_SESSION['premier_id']);
-                return $Premier;
-            } catch (Exception $e) {
-                error_log("Erro ao criar Premier com ID da sessão: " . $e->getMessage());
-                return false;
-            }
+            return $_SESSION['premier_id'];
         } else {
             error_log("Premier ID não encontrado na sessão. ID da sessão: " . session_id());
             return false;
@@ -68,7 +49,7 @@ class Session
 
     public static function close()
     {
-        if (session_status() === PHP_SESSION_ACTIVE) {
+        if (session_status() == 2) {
             if (!headers_sent()) {
                 if(session_destroy()){
                     unset($_SESSION['premier_id']);
@@ -85,7 +66,6 @@ class Session
             }
         }
         else{
-            error_log("Sessão não iniciada.");
             return true;
         }
     }

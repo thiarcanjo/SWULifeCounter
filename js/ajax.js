@@ -117,33 +117,24 @@ function selectBasesLeaders(){
       thisCount[0].append(player);
   }
 
-    // AJAX call to CLEAN SESSION
-    $.ajax({
-      url: baseUrl+'premier.php',
-      method: 'GET',
-      data:
-      {
-        session: ''
-      },
-      dataType: 'text',
-      xhrFields: {
-          withCredentials: true
-      },
-      beforeSend: function(data, settings)
-      {
-        // SHOW LOADING
-        console.log("Cleaning SESSION...");
-      },
-      success: function (result)
-      {
-        console.log("SESSION clean");
-      },
-      error: function (error,txtStatus,errorThrown)
-      {
-        console.error("Error:", txtStatus, errorThrown);
-        console.error("Resposta do servidor:", error.responseText);
-      }
-    });
+  // AJAX call to CLEAN SESSION
+  $.ajax({
+    url: baseUrl+'premier.php',
+    method: 'GET',
+    data:
+    {
+      session: ''
+    },
+    dataType: 'text',
+    xhrFields: {
+        withCredentials: true
+    },
+    error: function (error,txtStatus,errorThrown)
+    {
+      console.error("Error:", txtStatus, errorThrown);
+      console.error("Resposta do servidor:", error.responseText);
+    }
+  });
 }
 
 /**
@@ -170,7 +161,7 @@ function sendPlayerSelection(button){
   if(selectedInfo[0].value != ''){
     // AJAX call SAVE DATA
     $.ajax({
-      url: baseUrl+'premier.php',
+      url: baseUrl+'premier_live.php',
       method: 'GET',
       data:
       {
@@ -181,11 +172,6 @@ function sendPlayerSelection(button){
       dataType: 'text',
       xhrFields: {
           withCredentials: true
-      },
-      beforeSend: function(data, settings)
-      {
-        // SHOW LOADING
-        console.log("Enviando dados...");
       },
       success: function (result)
       {

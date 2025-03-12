@@ -11,9 +11,14 @@ define("DB_PORT","3306");
 
 class DAO{
   /**
+  * INSTANCIA com o BD
+  */
+  private static $instance = null;
+
+  /**
   * Conexão com o BD
   */
-  public $connection;
+  private $connection;
 
   /**
    * Tabela do BD
@@ -30,18 +35,15 @@ class DAO{
   * @param string $table
   * @param array $from (para tabelas com dependencias)
   */
-   public function __construct($table, $foreignKeys = null)
-   {
-      $this->table = $table;
-      $this->foreignKeys = ($foreignKeys) ?? '';
-      $this->setConnection();
+  public function __construct()
+  {
+    $this->setConnection();
   }
 
    /**
    * Método responsável por criar uma conexão com o banco de dados
    */
-   private function setConnection()
-   {
+   private function setConnection(){
       try
       {
          $dsn = "mysql:host=".DB_HOST.':'.DB_PORT.";dbname=".DB_NAME;
@@ -50,14 +52,28 @@ class DAO{
          $this->connection->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, true);
       }catch(PDOException $e)
       {
-         self::closeConnection();
          die('ERROR: '.$e->getMessage());
       }
    }
 
-   public function getConnection()
+   public static function getInstance()
    {
-       return $this->connection;
+      if (self::$instance === null) {
+          self::$instance = new DAO();
+      }
+      return self::$instance;
+   }
+
+   public function setTable($table, $foreignKeys = null){
+      $this->table = $table;
+      $this->foreignKeys = ($foreignKeys) ?? '';
+   }
+
+   /**
+    * RETURN connection
+    */
+   public function getConnection(){
+      return $this->connection;
    }
 
   /**
@@ -68,17 +84,25 @@ class DAO{
    */
   public function execute($query,$params = []){
     try{
-      error_log("\nMYSQL: ".$query);
-
-      $stmt = $this->connection->prepare($query);
-      $stmt->execute($params);
-
-      return $stmt;
-    }catch(PDOException $e){
-      self::closeConnection();
+      if($this->connection){
+        $stmt = $this->connection->prepare($query);
+        if($stmt->execute($params)){
+          return $stmt;
+        }
+        else{
+          error_log("Erro no INSERT: " . print_r($stmt->errorInfo(), true));
+          return false;
+        }
+      }
+      else{
+        error_log("Erro: $this->connection é nula em execute().");
+        return false;
+      }
+    }catch(\PDOException $e) {
+      $this->connection->rollBack(); // Reverte a transação em caso de erro
+      error_log("ERRO ON CONNECTION: " . $e->getMessage());
       die('ERROR: '.$e->getMessage());
     }
-
   }
 
   /**
@@ -128,7 +152,6 @@ class DAO{
 
     //EXECUTA A QUERY
     $stmt = $this->execute($query);
-    $this->closeConnection();
     return $stmt;
   }
 
@@ -137,7 +160,7 @@ class DAO{
    * @param  array $values [ field => value ]
    * @return integer ID inserido
    */
-  public function insert($values,$last_id = true){
+  public function insert($values,$last_id = false){
     //DADOS DA QUERY
     $fields = array_keys($values);
     $binds  = array_pad([],count($fields),'?');
@@ -150,9 +173,6 @@ class DAO{
     if($last_id) $id = $this->connection->lastInsertId();
     else $id = true;
 
-    $stmt->closeCursor();
-    $this->closeConnection();
-
     return $id;
   }
 
@@ -163,6 +183,11 @@ class DAO{
    * @return boolean
    */
   public function update($where,$values){
+    //REMOVE BLANKS
+    foreach($values as $key => $val){
+      if ($val === null || $val === '') unset($values[$key]);
+    }
+
     //DADOS DA QUERY
     $fields = array_keys($values);
 
@@ -170,9 +195,19 @@ class DAO{
     $query = 'UPDATE '.$this->table.' SET '.implode('=?,',$fields).'=? WHERE '.$where;
 
     //EXECUTAR A QUERY
+    $return = "\n";
+    foreach($values as $key => $value){
+       if(is_array($value)){
+          $tmpValue = "";
+          foreach($value as $id => $item){
+             $tmpValue .= '['.$id.']'.$item.' ';
+          }
+          $value = $tmpValue;
+       }
+       $return .= "\t".$key.": ".$value."\n";
+    }
+
     $stmt = $this->execute($query,array_values($values));
-    $stmt->closeCursor();
-    $this->closeConnection();
 
     //RETORNA SUCESSO
     return true;
@@ -189,14 +224,26 @@ class DAO{
 
     //EXECUTA A QUERY
     $stmt = $this->execute($query);
-    $stmt->closeCursor();
-    $this->closeConnection();
 
     //RETORNA SUCESSO
     return true;
   }
 
+  public function beginTransaction() {
+    $this->connection->beginTransaction();
+  }
+
+  public function commit() {
+    $this->connection->commit();
+  }
+
+  public function rollBack() {
+    $this->connection->rollBack();
+  }
+
+  public function __destruct() {
+    $this->closeConnection();
+  }
 
 }
-
 ?>

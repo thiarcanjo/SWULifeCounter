@@ -16,6 +16,7 @@ class Premier extends Model
    public $life = array(0,0);
    public $base_epic = array(false,false);
    public $leader_epic = array(false,false);
+   public $datetime = null;
 
    /**
    * Construtor
@@ -23,7 +24,7 @@ class Premier extends Model
    */
    public function __construct($vars = [])
    {
-      $this->dao = new PremierDAO();
+      $this->setDAO();
 
       if(!empty($vars))
       {
@@ -38,13 +39,17 @@ class Premier extends Model
          $this->base_epic[1]     = $vars['base_2_epic'] ?? false;
          $this->leader_epic[0]   = $vars['leader_1_epic'] ?? false;
          $this->leader_epic[1]   = $vars['leader_2_epic'] ?? false;
+         $this->datetime         = date("Y-m-d H:i:s");
       }
+      elseif($premier_id = Session::getPremierID()){
+         $this->premier_id = $premier_id;
+         if($Premier = $this->getById($this->premier_id)) $this->set($Premier);
+      }
+      elseif(!($this->premier_id) && !(Session::getPremierID())) $this->setPremierID();
+   }
 
-      if($Premier = Session::getPremier()){
-         $this->premier_id = $Premier->premier_id;
-         $this->set($this->getById($this->premier_id));
-      }
-      elseif(!($this->premier_id) && !(Session::getPremier())) $this->setPremierID();
+   private function setDAO(){
+      $this->dao = new PremierDAO();
    }
 
    /**
@@ -52,12 +57,18 @@ class Premier extends Model
     */
     public function set(Premier $Premier)
     {
-       $this->premier_id    = $Premier->premier_id ?? '';
-       $this->base          = $Premier->base ?? array('','');
-       $this->leader        = $Premier->leader ?? array('','');
-       $this->life          = $Premier->life ?? array(0,0);
-       $this->base_epic     = $Premier->base_epic ?? array(false,false);
-       $this->leader_epic   = $Premier->leader_epic ?? array(false,false);
+       if(!empty($Premier->premier_id)) $this->premier_id         = $Premier->premier_id;
+       if(!empty($Premier->base[0])) $this->base[0]               = $Premier->base[0];
+       if(!empty($Premier->base[1])) $this->base[1]               = $Premier->base[1];
+       if(!empty($Premier->leader[0])) $this->leader[0]           = $Premier->leader[0];
+       if(!empty($Premier->leader[1])) $this->leader[1]           = $Premier->leader[1];
+       if(!empty($Premier->life[0])) $this->life[0]               = $Premier->life[0];
+       if(!empty($Premier->life[1])) $this->life[1]               = $Premier->life[1];
+       if(!empty($Premier->base_epic[0])) $this->base_epic[0]     = $Premier->base_epic[0];
+       if(!empty($Premier->base_epic[1])) $this->base_epic[1]     = $Premier->base_epic[1];
+       if(!empty($Premier->leader_epic[0])) $this->leader_epic[0] = $Premier->leader_epic[0];
+       if(!empty($Premier->leader_epic[1])) $this->leader_epic[1] = $Premier->leader_epic[1];
+       if(!empty($Premier->datetime)) $this->datetime             = $Premier->datetime;
     }
 
    /**
@@ -73,10 +84,16 @@ class Premier extends Model
          case "player_1":
             $this->base[0] = $base;
             $this->leader[0] = $leader;
+            $this->life[0] = 0;
+            $this->base_epic[0] = false;
+            $this->leader_epic[0] = false;
             break;
          case "player_2":
             $this->base[1] = $base;
             $this->leader[1] = $leader;
+            $this->life[1] = 0;
+            $this->base_epic[1] = false;
+            $this->leader_epic[1] = false;
             break;
       }
     }
@@ -114,13 +131,16 @@ class Premier extends Model
    {
       try {
          $where = 'premier_id LIKE "'.substr($premier_id,0,6).'"';
-         $stmt = $this->dao->select($where)->fetchObject(self::class);
-         if($stmt instanceof Premier){
-            error_log("\n----FOUNDED----\n");
-            return $Premier;
+         if($stmt = $this->dao->select($where)){            
+            $premier = $stmt->fetch(PDO::FETCH_ASSOC);
+            
+            if(is_array($premier)){
+               $Premier = new Premier($premier);
+               return $Premier;
+            }
+            else return false;
          }
          else{
-            error_log("\n----NOT FOUNDED----\n");
             return false;
          }
       }
@@ -134,19 +154,10 @@ class Premier extends Model
    /**
     * INSERT/UPDATE
     */
-   public function save()
+   public function save($Premier = null)
    {
-      $objPremier = self::getById($this->premier_id);
-      if(!($objPremier instanceof Premier))
-      {
-         self::setPremierID();
-         $this->dao->insert($this);
-         return true;
-      }
-      else
-      {
-         return $this->dao->update($this);
-      }
+      if(!($Premier)) return $this->dao->insert($this);
+      else return $this->dao->update($this);
    }
 
    /**
@@ -157,20 +168,18 @@ class Premier extends Model
       switch($player)
       {
          case "player_1":
-            if($base_life) $this->base_life[0] = $base_life;
-            if($base_epic) $this->base_epic[0] = $base_epic;
-            if($leader_epic) $this->leader_epic[0] = $leader_epic;
+            if($base_life !== null && $base_life !== '')    $this->life[0]     = $base_life;
+            if($base_epic !== null && $base_epic !== '')    $this->base_epic[0]     = $base_epic;
+            if($leader_epic !== null && $leader_epic !== '') $this->leader_epic[0]  = $leader_epic;
             break;
          case "player_2":
-            if($base_life) $this->base_life[1] = $base_life;
-            if($base_epic) $this->base_epic[1] = $base_epic;
-            if($leader_epic) $this->leader_epic[1] = $leader_epic;
+            if($base_life !== null && $base_life !== '')    $this->life[1]     = $base_life;
+            if($base_epic !== null && $base_epic !== '')    $this->base_epic[1]     = $base_epic;
+            if($leader_epic !== null && $leader_epic !== '') $this->leader_epic[1]  = $leader_epic;
             break;
       }
 
-      $objPremier = self::getById($this->premier_id);
-      if($objPremier instanceof Premier) return $this->dao->update($this);
-      else return false;
+      return $this->dao->update($this);
    }
 
    /**
@@ -207,7 +216,8 @@ class Premier extends Model
          'leader'       => $this->leader,
          'life'         => $this->life,
          'base_epic'    => $this->base_epic,
-         'leader_epic'  => $this->leader_epic
+         'leader_epic'  => $this->leader_epic,
+         'datetime'     => $this->datetime
       );
 
       $return = "\n";

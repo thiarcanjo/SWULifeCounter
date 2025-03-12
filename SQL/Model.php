@@ -15,7 +15,7 @@ abstract class Model
   * Linhas retornadas do BD
   */
   public array $rows;
-
+  
   /**
   * Retorna a quantidade de linhas no banco
   * @return integer

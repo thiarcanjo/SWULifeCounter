@@ -59,35 +59,6 @@ function changeBaseLife(btn){
         count_value = parseInt(count_now.innerHTML) + 1 ;
         count_now.innerHTML = count_value;
     }
-
-    // AJAX call UPDATE LIFE
-    $.ajax({
-        url: baseUrl+'premier.php',
-        method: 'GET',
-        data:
-        {
-          player: thisButton[1],
-          base_life : count_value
-        },
-        dataType: 'text',
-        xhrFields: {
-            withCredentials: true
-        },
-        beforeSend: function(data, settings)
-        {
-          // SHOW LOADING
-          console.log("UPDATING Base Life...");
-        },
-        success: function (result)
-        {
-          alert(result);
-        },
-        error: function (error,txtStatus,errorThrown)
-        {
-          console.error("Error:", txtStatus, errorThrown);
-          console.error("Resposta do servidor:", error.responseText);
-        }
-    });
 }
 
 
@@ -124,3 +95,55 @@ function historyCount(btn,btnType){
         history.textContent = '';
     },5000);
 }
+
+// UPDATE LIFE
+document.addEventListener('DOMContentLoaded', function() {
+    function updateLife(){
+        var player1Life = document.getElementById('count-now_player_1');
+        var player2Life = document.getElementById('count-now_player_2');
+
+        if(player1Life){
+            player1Life = player1Life.innerHTML;
+            // AJAX call UPDATE LIFE
+            $.ajax({
+                url: baseUrl + 'premier_live.php',
+                method: 'GET',
+                data: {
+                    player: 'player_1',
+                    base_life: player1Life
+                },
+                dataType: 'text',
+                xhrFields: {
+                    withCredentials: true
+                },
+                error: function (error, txtStatus, errorThrown) {
+                    console.error("Error player_1:", txtStatus, errorThrown);
+                    console.error("Resposta do servidor player_1:", error.responseText);
+                }
+            });
+        }
+
+        // AJAX call UPDATE LIFE PLAYER_2
+        if(player2Life){
+            player2Life = player2Life.innerHTML;
+            $.ajax({
+                url: baseUrl + 'premier_live.php',
+                method: 'GET',
+                data: {
+                    player: 'player_2',
+                    base_life: player2Life
+                },
+                dataType: 'text',
+                xhrFields: {
+                    withCredentials: true
+                },
+                error: function (error, txtStatus, errorThrown) {
+                    console.error("Error player_2:", txtStatus, errorThrown);
+                    console.error("Resposta do servidor player_2:", error.responseText);
+                }
+            });
+        }
+    }
+
+    setInterval(updateLife, 5000);
+});

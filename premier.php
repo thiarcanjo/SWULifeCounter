@@ -6,53 +6,7 @@ use \UTILS\Session;
 if(isset($_GET['session'])){
     if(!(Session::close())) header("HTTP/1.1 400 Bad Request");
 }
-elseif(isset($_GET['player'])){
-    if($Premier = Session::getPremier()){
-        if(!isset($_GET['base_life'])){
-            if(isset($_GET['base']) && isset($_GET['leader'])){
-                $Premier->setPlayer($_GET['player'], $_GET['base'], $_GET['leader']);
-
-                if ($Premier->save()){
-                    $msg = "PLAYER INSERTED/UDPDATED ON DB";
-                    Session::setPremier($Premier);
-                    error_log("\n" . $msg . "\nAJAX: " . $Premier->toString() . "\n---------------------------\n");
-                    echo $msg;
-                }
-                else{
-                    $msg = "ERROR ON DB INSERT PROCESS";
-                    if(!headers_sent()){
-                        header("HTTP/1.1 400 Bad Request");
-                    }
-                    error_log($msg);
-                    echo $msg;
-                }
-            }
-            else{
-                $msg = "ERROR ON DB UPDATE PROCESS";
-                if(!headers_sent()){
-                    header("HTTP/1.1 400 Bad Request");
-                }
-                error_log($msg);
-                echo $msg;
-            }
-        }
-        elseif($Premier->updateGame($_GET['player'], $_GET['base_life'])){
-            $msg = "BASE LIFE UPDATED ON DB";
-            error_log("\n" . $msg . "\nAJAX: " . $Premier->toString() . "\n---------------------------\n");
-            echo $msg;
-        }
-    }
-    else{
-        $msg = "ERROR, Premier não encontrado na sessão";
-        if(!headers_sent()){
-            header("HTTP/1.1 400 Bad Request");
-        }
-        error_log($msg);
-        echo $msg;
-    }
-    Session::setPremier($Premier);
-}
-elseif(Session::start()){
+elseif(Session::start()){ // NO AJAX
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -76,10 +30,11 @@ elseif(Session::start()){
 </head>
 <body>
     <main>
-        <div class="top-menu">
-            <div class="go-home" onclick="goHome();">
+        <div class="top-menu w10">
+            <div class="go-home w8" onclick="goHome();">
                 <span class="fa fa-home"></span><span>BEGIN</span>
             </div>
+            <div class="id w2" id="premier_id"><?= Session::getPremierID(); ?></div>
         </div>
         <div class="main-container">
             <div id="player_1" class="player_div">

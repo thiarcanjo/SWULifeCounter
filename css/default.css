@@ -24,12 +24,13 @@ main{
 
 .top-menu{
     position: absolute;
+    display: flex;
+	flex-direction: row;
     box-sizing: border-box;
     top: 5px;
     left: 0;
     align-items: center;
-    width: 120%;
-    height: 20px;
+    height: 30px;
     margin-bottom: 10px;
     border-bottom: 1px solid #FFF;
     justify-content: center;
@@ -38,12 +39,21 @@ main{
 }
 .top-menu .gohome{
     display: flex;
-    justify-content: center;
+    box-sizing: border-box;
+    justify-content: left;
+    margin-left: 10px;
 }
 .top-menu span{
-    margin: 0px 10px;
+    margin-left: 10px;
     font-size: 16px;
     color: #FFF;
+}
+.top-menu .id{
+    display: flex;
+    box-sizing: border-box;
+    justify-content: right;
+    margin-right: 10px;
+    font-weight: 600;
 }
 
 /* Estiliza o rodapé da página */

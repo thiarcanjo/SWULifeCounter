@@ -16,7 +16,8 @@ class PremierDAO
    */
    public function __construct()
    {
-      $this->dao = new DAO('premier');
+      $this->dao = DAO::getInstance();
+      $this->dao->setTable('premier');
    }
 
   /**
@@ -39,19 +40,29 @@ class PremierDAO
    */
   public function insert(Premier $entity)
   {
-     $values['premier_id']    = $entity->premier_id;
-     $values['base_1']        = $entity->base[0];
-     $values['base_2']        = $entity->base[1];
-     $values['leader_1']      = $entity->leader[0];
-     $values['leader_2']      = $entity->leader[1];
-     $values['base_1_life']   = $entity->life[0];
-     $values['base_2_life']   = $entity->life[1];
-     $values['base_1_epic']   = $entity->base_epic[0];
-     $values['base_2_epic']   = $entity->base_epic[1];
-     $values['leader_1_epic'] = $entity->leader_epic[0];
-     $values['leader_2_epic'] = $entity->leader_epic[1];
+      $values['premier_id']    = $entity->premier_id;
+      $values['base_1']        = $entity->base[0];
+      $values['base_2']        = $entity->base[1];
+      $values['leader_1']      = $entity->leader[0];
+      $values['leader_2']      = $entity->leader[1];
+      $values['base_1_life']   = $entity->life[0];
+      $values['base_2_life']   = $entity->life[1];
+      $values['base_1_epic']   = $entity->base_epic[0];
+      $values['base_2_epic']   = $entity->base_epic[1];
+      $values['leader_1_epic'] = $entity->leader_epic[0];
+      $values['leader_2_epic'] = $entity->leader_epic[1];
+      $values['datetime']      = $entity->datetime;
 
-     return $this->dao->insert($values);
+      try {
+         $this->dao->beginTransaction();
+         $this->dao->insert($values);
+         $this->dao->commit();
+         return true;
+      }
+      catch (\PDOException $e) {
+         error_log("INSERT ERROR Premier: " . $e->getMessage());
+         return false;
+      }
   }
 
   /**
@@ -71,10 +82,20 @@ class PremierDAO
       $values['base_2_epic']   = $entity->base_epic[1];
       $values['leader_1_epic'] = $entity->leader_epic[0];
       $values['leader_2_epic'] = $entity->leader_epic[1];
+      $values['datetime']      = $entity->datetime;
 
       $where = 'premier_id LIKE "'.$entity->premier_id.'"';
 
-      return $this->dao->update($where, $values);
+      try {
+         $this->dao->beginTransaction();
+         $this->dao->update($where, $values);
+         $this->dao->commit();
+         return true;
+      }
+      catch (\PDOException $e) {
+         error_log("UPDATE ERROR Premier: " . $e->getMessage());
+         return false;
+      }
   }
 
    /**
@@ -82,11 +103,20 @@ class PremierDAO
    * @param  integer $id
    * @return boolean
    */
-   public function delete(int $id)
+   public function delete(Premier $entity)
    {
       $where = 'premier_id LIKE "'.$entity->premier_id.'"';
-
-      return $this->dao->delete($where);
+      
+      try {
+         $this->dao->beginTransaction();
+         $this->dao->delete($where);
+         $this->dao->commit();
+         return true;
+      }
+      catch (\PDOException $e) {
+         error_log("UPDATE ERROR Premier: " . $e->getMessage());
+         return false;
+      }
    }
 }
 ?>
