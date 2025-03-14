@@ -163,22 +163,14 @@ class Premier extends Model
    /**
     * UPDATE life
     */
-   public function updateGame($player,$base_life = null,$base_epic = null,$leader_epic = null)
+   public function updateGame($player,int $base_life = null, $base_epic = null, $leader_epic = null)
    {
-      switch($player)
-      {
-         case "player_1":
-            if($base_life !== null && $base_life !== '')    $this->life[0]     = $base_life;
-            if($base_epic !== null && $base_epic !== '')    $this->base_epic[0]     = $base_epic;
-            if($leader_epic !== null && $leader_epic !== '') $this->leader_epic[0]  = $leader_epic;
-            break;
-         case "player_2":
-            if($base_life !== null && $base_life !== '')    $this->life[1]     = $base_life;
-            if($base_epic !== null && $base_epic !== '')    $this->base_epic[1]     = $base_epic;
-            if($leader_epic !== null && $leader_epic !== '') $this->leader_epic[1]  = $leader_epic;
-            break;
-      }
-
+      if($player == "player_1") $id = 0;
+      elseif($player == "player_2") $id = 1;
+      if($base_life !== null) $this->life[$id] = $base_life;
+      if($base_epic === "false" || $base_epic === "true")      $this->base_epic[$id]     = filter_var($base_epic, FILTER_VALIDATE_BOOLEAN);
+      if($leader_epic === "false" || $leader_epic === "true")  $this->leader_epic[$id]   = filter_var($leader_epic, FILTER_VALIDATE_BOOLEAN);
+      
       return $this->dao->update($this);
    }
 

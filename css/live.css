@@ -45,6 +45,7 @@ main *{
 
 #list_games .base-img, .game .base-img{
     display: flex;
+    position: relative;
     box-sizing: border-box;
     padding: 5px;
 	border-radius: 5%;
@@ -61,6 +62,7 @@ main *{
 
 #list_games .leader-img, .game .leader-img{
     display: flex;
+    position: relative;
     box-sizing: border-box;
     padding: 5px;
 	border-radius: 50%;
@@ -147,4 +149,12 @@ main *{
 .life-updated{
     color: #F00;
     font-size: x-large;
+}
+
+.epicToken-img{
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: auto;
+    height: 60%;
 }

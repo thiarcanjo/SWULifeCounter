@@ -1,3 +1,6 @@
+// NO SLEEP
+const noSleep = new NoSleep();
+
 /**
  * MOSTRA o contador de vida na mesa do player selecionado
  * 
@@ -59,6 +62,8 @@ function changeBaseLife(btn){
         count_value = parseInt(count_now.innerHTML) + 1 ;
         count_now.innerHTML = count_value;
     }
+
+    noSleep.enable();
 }
 
 
@@ -110,7 +115,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 method: 'GET',
                 data: {
                     player: 'player_1',
-                    base_life: player1Life
+                    update: 'base_life',
+                    value: player1Life
                 },
                 dataType: 'text',
                 xhrFields: {
@@ -131,7 +137,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 method: 'GET',
                 data: {
                     player: 'player_2',
-                    base_life: player2Life
+                    update: 'base_life',
+                    value: player2Life
                 },
                 dataType: 'text',
                 xhrFields: {
@@ -146,4 +153,5 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     setInterval(updateLife, 5000);
+    noSleep.enable();
 });

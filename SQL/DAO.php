@@ -186,7 +186,7 @@ class DAO{
   public function update($where,$values){
     //REMOVE BLANKS
     foreach($values as $key => $val){
-      if ($val === null || $val === '') unset($values[$key]);
+      if($val === null || (is_string($val) && $val === '')) unset($values[$key]);
     }
 
     //DADOS DA QUERY

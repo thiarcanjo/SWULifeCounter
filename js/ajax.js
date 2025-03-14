@@ -35,7 +35,7 @@ function setPlayerPremierDATA(playerData,playerID){
   if(playerData[1] != ''){
       dbLeader = SearchLeaderInfo(playerData[1]);
       var leader_img = document.createElement('div');
-      leader_img.className = "leader-img";
+      leader_img.className = "leader-img "+playerID+" leader";
       leader_img.style.setProperty('background-image', 'url("https://swudb.com/images/cards/'+dbLeader.collection.code+'/'+dbLeader.number+'.png")');
       leader_img.setAttribute('onclick','EpicActionToggle(this)');
       leftContent.append(leader_img);

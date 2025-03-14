@@ -32,16 +32,16 @@ if(isset($_GET['id'])){
         <div id="<?=$Premier->premier_id;?>" class="game w10 h10">
             <div class="player_1 w10 h5">
                 <div class="leader">
-                    <div class="leader-img" style='background-image: url("https://swudb.com/images/cards/<?=getCodeNumber($Premier->leader[0],0);?>/<?=getCodeNumber($Premier->leader[0],1);?>.png");'></div>
+                    <div class="leader-img player_1_leader" style='background-image: url("https://swudb.com/images/cards/<?=getCodeNumber($Premier->leader[0],0);?>/<?=getCodeNumber($Premier->leader[0],1);?>.png");'></div>
                 </div>
-                <div class="base-img" style='background-image: url("https://swudb.com/images/cards/<?=getCodeNumber($Premier->base[0],0);?>/<?=getCodeNumber($Premier->base[0],1);?>.png");'></div>
+                <div class="base-img player_1_base" style='background-image: url("https://swudb.com/images/cards/<?=getCodeNumber($Premier->base[0],0);?>/<?=getCodeNumber($Premier->base[0],1);?>.png");'></div>
                 <div class="player_1_life life"><?=$Premier->life[0];?></div>
             </div>
             <div class="player_2 w10 h5" id="">
                 <div class="leader">
-                    <div class="leader-img" style='background-image: url("https://swudb.com/images/cards/<?=getCodeNumber($Premier->leader[1],0);?>/<?=getCodeNumber($Premier->leader[1],1);?>.png");'></div>
+                    <div class="leader-img player_2_leader" style='background-image: url("https://swudb.com/images/cards/<?=getCodeNumber($Premier->leader[1],0);?>/<?=getCodeNumber($Premier->leader[1],1);?>.png");'></div>
                 </div>
-                <div class="base-img" style='background-image: url("https://swudb.com/images/cards/<?=getCodeNumber($Premier->base[1],0);?>/<?=getCodeNumber($Premier->base[1],1);?>.png");'></div>
+                <div class="base-img player_2_base" style='background-image: url("https://swudb.com/images/cards/<?=getCodeNumber($Premier->base[1],0);?>/<?=getCodeNumber($Premier->base[1],1);?>.png");'></div>
                 <div class="player_2_life life"><?=$Premier->life[1];?></div>
             </div>
         </div>

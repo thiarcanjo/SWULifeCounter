@@ -13,24 +13,14 @@ if(isset($_GET['player'])){
             if($objPremier instanceof Premier) $Premier->set($objPremier);
             
             if($Premier instanceof Premier){
-                if(!isset($_GET['base_life'])){ // BEGIN game (SAVE player, base, leader)
-                    if(isset($_GET['base']) && isset($_GET['leader'])){
-                        $Premier->setPlayer($_GET['player'], $_GET['base'], $_GET['leader']);
-                        
-                        if ($Premier->save($objPremier)){
-                            return true;
-                        }
-                        else{
-                            $msg = "ERROR ON DB INSERT PROCESS";
-                            if(!headers_sent()){
-                                header("HTTP/1.1 400 Bad Request");
-                            }
-                            error_log($msg);
-                            echo $msg;
-                        }
+                if(isset($_GET['base']) && isset($_GET['leader'])){ // SET BASE and LEADER
+                    $Premier->setPlayer($_GET['player'], $_GET['base'], $_GET['leader']);
+                    
+                    if ($Premier->save($objPremier)){
+                        return true;
                     }
                     else{
-                        $msg = "ERROR ON DB UPDATE PROCESS";
+                        $msg = "ERROR ON DB INSERT PROCESS";
                         if(!headers_sent()){
                             header("HTTP/1.1 400 Bad Request");
                         }
@@ -38,18 +28,63 @@ if(isset($_GET['player'])){
                         echo $msg;
                     }
                 }
+                elseif(isset($_GET['update']) && isset($_GET['value'])){ // UPDATE Live game
+                    switch($_GET['update']){
+                        case 'base_life':
+                            if($Premier->updateGame($_GET['player'], (int) $_GET['value'])){ // UPDATE counter (base_life, leader_epic, base_epic)
+                                return true;
+                            }
+                            else{
+                                $msg = "ERROR ON DB BASE LIFE UPDATE PROCESS";
+                                if(!headers_sent()){
+                                    header("HTTP/1.1 400 Bad Request");
+                                }
+                                error_log($msg);
+                                echo $msg;
+                            }
+                            break;
+                        case 'base':
+                            if($Premier->updateGame($_GET['player'], null, $_GET['value'])){
+                                return true;
+                            }
+                            else{
+                                $msg = "ERROR ON DB BASE EPIC ACTIN USED";
+                                if(!headers_sent()){
+                                    header("HTTP/1.1 400 Bad Request");
+                                }
+                                error_log($msg);
+                                echo $msg;
+                            }
+                            break;
+                        case 'leader':
+                            if($Premier->updateGame($_GET['player'], null, null, $_GET['value'])){
+                                return true;
+                            }
+                            else{
+                                $msg = "ERROR ON DB BASE EPIC ACTIN USED";
+                                if(!headers_sent()){
+                                    header("HTTP/1.1 400 Bad Request");
+                                }
+                                error_log($msg);
+                                echo $msg;
+                            }
+                            break;
+                        default:
+                            $msg = "ERROR - NO OPTION FOR UPDATE";
+                            if(!headers_sent()){
+                                header("HTTP/1.1 400 Bad Request");
+                            }
+                            error_log($msg);
+                            echo $msg;
+                    }
+                }
                 else{
-                    if($Premier->updateGame($_GET['player'], $_GET['base_life'])){ // UPDATE counter (base_life, leader_epic, base_epic)
-                        return true;
+                    $msg = "ERROR ON DB UPDATE PROCESS";
+                    if(!headers_sent()){
+                        header("HTTP/1.1 400 Bad Request");
                     }
-                    else{
-                        $msg = "ERROR ON DB BASE LIFE UPDATE PROCESS";
-                        if(!headers_sent()){
-                            header("HTTP/1.1 400 Bad Request");
-                        }
-                        error_log($msg);
-                        echo $msg;
-                    }
+                    error_log($msg);
+                    echo $msg;
                 }
             }
             else{

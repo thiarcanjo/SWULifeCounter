@@ -107,7 +107,7 @@ function addEpicToken(playerID){
     var epic_token = document.createElement('div');
     epic_token.className = 'epic_token';
     var btnEpic = document.createElement('button');
-    btnEpic.className = 'btn '+playerID;
+    btnEpic.className = 'btn '+playerID+" base";
     btnEpic.setAttribute('onclick','useEpicAction(this)');
     btnEpic.style = "filter: grayscale(100%);";
     var epic_img = document.createElement('img');
@@ -130,13 +130,18 @@ function useEpicAction(btn){
     var playerDIV = document.getElementById(thisButton[1]);
     var epic_token = playerDIV.querySelector('.epic_token');
     var btnEpic = epic_token.querySelector('.btn');
+    var epicValue = false;
 
     if (btnEpic.style.filter == "grayscale(100%)"){
         btnEpic.style = "filter: none;";
+        epicValue = true;
     }
     else {
         btnEpic.style = "filter: grayscale(100%);";
+        epicValue = false;
     }
+
+    updateEpicAction(btn,epicValue);
 }
 
 /**
@@ -146,16 +151,31 @@ function useEpicAction(btn){
  */
 function EpicActionToggle(btn){
     btn.classList.toggle('epicUsed');
+    var wasEpicUsed = btn.classList.contains('epicUsed');
+
+    updateEpicAction(btn,wasEpicUsed);
 }
 
-/**
- * TENTA manter  a tela ligada
- * 
- * @param {int} minutes 
- */
-function tryKeepScreenAlive(minutes) {
-    navigator.wakeLock.request("screen").then(lock => {
-      setTimeout(() => lock.release(), minutes * 60 * 1000);
+function updateEpicAction(btn,epicValue){
+    var thisButton = Array.from(btn.classList);
+    var player = thisButton[1];
+    var epicType = thisButton[2];
+
+    $.ajax({
+        url: baseUrl + 'premier_live.php',
+        method: 'GET',
+        data: {
+            player: player,
+            update: epicType,
+            value: epicValue
+        },
+        dataType: 'text',
+        xhrFields: {
+            withCredentials: true
+        },
+        error: function (error, txtStatus, errorThrown) {
+            console.error("Error "+player+":", txtStatus, errorThrown);
+            console.error("Resposta do servidor "+player+":", error.responseText);
+        }
     });
 }
-tryKeepScreenAlive(5);

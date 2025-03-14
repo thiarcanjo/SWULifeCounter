@@ -35,6 +35,23 @@ elseif (isset($_GET['update_lifes'])) {
     }
     else echo json_encode(array('error' => 'Erro ao criar PremierLive.'));
 }
+elseif (isset($_GET['update_epics'])) {
+    if ($PremierLive = new PremierLive()) {
+        if ($PremierLive->getAllRows()) { // Ou um método específico para obter apenas as vidas
+            $return = array();
+            foreach ($PremierLive->rows as $Premier) {
+                $return[] = array(
+                    'premier_id' => $Premier->premier_id,
+                    'base_epic' => array($Premier->base_epic[0], $Premier->base_epic[1]),
+                    'leader_epic' => array($Premier->leader_epic[0], $Premier->leader_epic[1])
+                );
+            }
+            echo json_encode($return);
+        }
+        else echo json_encode(array('error' => 'Erro ao obter EPICs.'));
+    }
+    else echo json_encode(array('error' => 'Erro ao criar PremierLive.'));
+}
 else{
     $msg = "AJAX SESSION no GETs";
     if(!headers_sent()){

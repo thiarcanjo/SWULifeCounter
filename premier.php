@@ -55,11 +55,11 @@ elseif(Session::start()){ // NO AJAX
         </p>
     </footer>
     <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/nosleep/0.12.0/NoSleep.min.js"></script>
     <script src="./js/default.js"></script>
     <script src="./js/bd.js"></script>
     <script src="./js/counter.js"></script>
     <script src="./js/ajax.js"></script>
-    <script src="./js/wakeLock.js"></script>
 </body>
 
 <?php
