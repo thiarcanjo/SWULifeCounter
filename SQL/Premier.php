@@ -39,7 +39,7 @@ class Premier extends Model
          $this->base_epic[1]     = $vars['base_2_epic'] ?? false;
          $this->leader_epic[0]   = $vars['leader_1_epic'] ?? false;
          $this->leader_epic[1]   = $vars['leader_2_epic'] ?? false;
-         $this->datetime         = date("Y-m-d H:i:s");
+         $this->datetime         = $vars['datetime'] ?? date("Y-m-d H:i:s");
       }
       elseif($premier_id = Session::getPremierID()){
          $this->premier_id = $premier_id;
@@ -188,7 +188,7 @@ class Premier extends Model
     */
    public function delete()
    {
-      return $this->dao->delete($this->premier_id);
+      return $this->dao->delete($this);
    }
 
    /**
@@ -204,7 +204,7 @@ class Premier extends Model
       }
       return $randow;
   }
-
+  
   /**
    * TRANSFORM to STRING for DEBUG
    * @return string

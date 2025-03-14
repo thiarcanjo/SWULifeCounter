@@ -59,15 +59,17 @@ main{
 /* Estiliza o rodapé da página */
 footer {
     display: flex;
+    box-sizing: border-box;
+    justify-content: center;
+    justify-self: baseline;
     background-color: #F5F7F8; /* Cor de fundo do rodapé */
     color: #45474B; /* Cor do texto */
     text-align: justify;
     align-items: center;
     justify-content: baseline;
     padding: 5px;
-    margin-top: 30px;
-    margin-left: 70px;
-    width: 110%;
+    margin: 10px 10px;
+    width: 100%;
     height: auto;
     font-size: 0.9rem;
 }

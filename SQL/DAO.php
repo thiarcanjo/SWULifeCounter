@@ -85,6 +85,7 @@ class DAO{
   public function execute($query,$params = []){
     try{
       if($this->connection){
+        //error_log("\nMYSQL: ".$query." - PARAMS: ".implode(",",$params));
         $stmt = $this->connection->prepare($query);
         if($stmt->execute($params)){
           return $stmt;

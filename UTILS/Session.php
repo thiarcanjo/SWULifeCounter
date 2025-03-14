@@ -16,10 +16,10 @@ class Session
     * CREATE A Premier Game
     * @return Premier
     */
-    public static function start()
+    public static function start($live = false)
     {
         self::init();
-        if(!isset($_SESSION['premier_id'])){
+        if(!isset($_SESSION['premier_id']) && !($live)){
             try {
                 $Premier = new Premier();
                 $_SESSION['premier_id'] = $Premier->premier_id;

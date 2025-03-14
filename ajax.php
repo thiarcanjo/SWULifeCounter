@@ -1,0 +1,46 @@
+<?php
+require_once __DIR__.'/UTILS/autoload.php';
+use \SQL\Premier;
+use \SQL\PremierLive;
+use \UTILS\Session;
+
+// AJAX response
+if(isset($_GET['list_games'])){
+    if($PremierLive = new PremierLive()){
+        if($PremierLive->getAllRows()){
+            $return = array();
+
+            foreach($PremierLive->rows as $Premier){
+                $return[] = $Premier;
+            }
+            echo json_encode($return);
+        }
+        else echo json_encode(array('error' => 'ERROR ON LIST'));
+    }
+    else echo json_encode(array('error' => 'ERROR ON GET ROWS'));
+}
+elseif (isset($_GET['update_lifes'])) {
+    if ($PremierLive = new PremierLive()) {
+        if ($PremierLive->getAllRows()) { // Ou um método específico para obter apenas as vidas
+            $return = array();
+            foreach ($PremierLive->rows as $Premier) {
+                $return[] = array(
+                    'premier_id' => $Premier->premier_id,
+                    'life' => array($Premier->life[0], $Premier->life[1])
+                );
+            }
+            echo json_encode($return);
+        }
+        else echo json_encode(array('error' => 'Erro ao obter vidas.'));
+    }
+    else echo json_encode(array('error' => 'Erro ao criar PremierLive.'));
+}
+else{
+    $msg = "AJAX SESSION no GETs";
+    if(!headers_sent()){
+        header("HTTP/1.1 400 Bad Request");
+    }
+    error_log($msg);
+    echo json_encode(array('error' => $msg));
+}
+?>
