@@ -1,1 +1,3 @@
-OPEN premier.php file directly
+All project working
+
+Open index.html for Home Menu
