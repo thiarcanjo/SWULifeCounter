@@ -59,6 +59,7 @@ elseif(Session::start()){ // NO AJAX
     <script src="./js/bd.js"></script>
     <script src="./js/counter.js"></script>
     <script src="./js/ajax.js"></script>
+    <script src="./js/wakeLock.js"></script>
 </body>
 
 <?php
