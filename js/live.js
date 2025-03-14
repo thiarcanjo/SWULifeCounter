@@ -75,7 +75,7 @@ $(document).ready(function()
 
           var base2Cell = document.createElement('td');
           base2Cell.className = "";
-          var base2 = item.base[0].match(/([A-Z]+)(\d+)/);
+          var base2 = item.base[1].match(/([A-Z]+)(\d+)/);
           var base2_img = document.createElement('div');
           base2_img.className = "base-img player_2_base";
           base2_img.style.setProperty('background-image', 'url("https://swudb.com/images/cards/'+base2[1]+'/'+base2[2]+'.png")');

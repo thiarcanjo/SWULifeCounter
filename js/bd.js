@@ -594,7 +594,7 @@ const leader = [
   {
     code: "SOR016",
     collection: collection[collection.findIndex(e => e.code === "SOR")],
-    number: "015",
+    number: "016",
     name: "Grand Admiral Thrawn, Patient and Insightful",
     cost: 6,
     aspect: [aspect[aspect.findIndex(e => e.name === "Cunning")], aspect[aspect.findIndex(e => e.name === "Villainy")]]
