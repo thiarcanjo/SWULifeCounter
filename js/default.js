@@ -3,7 +3,8 @@
  **/ 
 function callGame(){
     var selectedFormat = document.querySelector('input[name="formato"]:checked').value;
-    window.location.href = selectedFormat+'.html';
+    if(selectedFormat == "premier") window.location.href = selectedFormat+'.php';
+    else window.location.href = selectedFormat+'.html';
 }
 
 /**
