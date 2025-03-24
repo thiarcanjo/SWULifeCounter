@@ -1,6 +1,5 @@
 <?php
 namespace SQL\DAO;
-use \UTILS\ENV;
 use \PDO;
 
 class DAO{
@@ -31,7 +30,6 @@ class DAO{
   */
   public function __construct()
   {
-    ENV::load(__DIR__."//..//..");
     $this->setConnection();
   }
 
