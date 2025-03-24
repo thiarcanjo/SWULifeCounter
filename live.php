@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__.'/UTILS/autoload.php';
-use \SQL\Premier;
+use \SQL\Entity\Premier;
 use \UTILS\Session;
 
 ?>
@@ -25,6 +25,13 @@ use \UTILS\Session;
 </head>
 <body>
     <main>
+        <div class="store w10">
+            <label for="store">
+                <select id="store">
+                    <option value="">SELECT A STORE IF YOU WISH</option>
+                </select>
+            </label>
+        </div>
         <div id="list_games" class="w10">
             <table class="w10">
                 <thead>
@@ -56,6 +63,7 @@ use \UTILS\Session;
     </footer>
     <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
     <script src="./js/default.js"></script>
+    <script src="./js/app.js"></script>
     <script src="./js/bd.js"></script>
     <script src="./js/live.js"></script>
 </body>

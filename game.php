@@ -1,11 +1,56 @@
 <?php
 require_once __DIR__.'/UTILS/autoload.php';
-use \SQL\Premier;
+use \SQL\Entity\Premier;
+use \SQL\Entity\Card;
 use \UTILS\Session;
 
 if(isset($_GET['id'])){
     $Premier = new Premier(['premier_id' => $_GET['id']]);
     $Premier->set($Premier->getById($Premier->premier_id));
+
+    // GET INFO PLAYER 1
+    $Base1 = new Card();
+    $aspects1 = array();
+    try {
+        $Base1 = $Base1->getByCode($Premier->base[0]);
+        foreach($Base1->Aspects as $baseAspect){
+            $aspects1[] = $baseAspect;
+        }
+    } catch (\PDOException $e) {
+        error_log("Erro ao buscar BASE: " . $e->getMessage());
+    }
+
+    $Leader1 = new Card();
+    try {
+        $Leader1 = $Leader1->getByCode($Premier->leader[0]);
+        foreach($Leader1->Aspects as $leaderAspect){
+            $aspects1[] = $leaderAspect;
+        }
+    } catch (\PDOException $e) {
+        error_log("Erro ao buscar LEADER: " . $e->getMessage());
+    }
+
+    // GET INFO PLAYER 2
+    $Base2 = new Card();
+    $aspects2 = array();
+    try {
+        $Base2 = $Base2->getByCode($Premier->base[1]);
+        foreach($Base2->Aspects as $baseAspect){
+            $aspects2[] = $baseAspect;
+        }
+    } catch (\PDOException $e) {
+        error_log("Erro ao buscar BASE: " . $e->getMessage());
+    }
+
+    $Leader2 = new Card();
+    try {
+        $Leader2 = $Leader2->getByCode($Premier->leader[1]);
+        foreach($Leader2->Aspects as $leaderAspect){
+            $aspects2[] = $leaderAspect;
+        }
+    } catch (\PDOException $e) {
+        error_log("Erro ao buscar LEADER: " . $e->getMessage());
+    }
 }
 ?>
 <!DOCTYPE html>
@@ -32,17 +77,23 @@ if(isset($_GET['id'])){
         <div id="<?=$Premier->premier_id;?>" class="game w10 h10">
             <div class="player_1 w10 h5">
                 <div class="leader">
-                    <div class="leader-img player_1_leader" style='background-image: url("https://swudb.com/images/cards/<?=getCodeNumber($Premier->leader[0],0);?>/<?=getCodeNumber($Premier->leader[0],1);?>.png");'></div>
+                    <div class="leader-img player_1_leader" style='background-image: url("<?=$Leader1->img;?>");'></div>
+                    <div class="aspects"><?=printAspects($aspects1);?></div>
                 </div>
-                <div class="base-img player_1_base" style='background-image: url("https://swudb.com/images/cards/<?=getCodeNumber($Premier->base[0],0);?>/<?=getCodeNumber($Premier->base[0],1);?>.png");'></div>
-                <div class="player_1_life life"><?=$Premier->life[0];?></div>
+                <div class="base-img player_1_base" style='background-image: url("<?=$Base1->img;?>");'></div>
+                <div class="base-life">
+                    <div class="player_1_life life"><?=$Premier->life[0];?></div>
+                </div>
             </div>
-            <div class="player_2 w10 h5" id="">
+            <div class="player_2 w10 h5">
                 <div class="leader">
-                    <div class="leader-img player_2_leader" style='background-image: url("https://swudb.com/images/cards/<?=getCodeNumber($Premier->leader[1],0);?>/<?=getCodeNumber($Premier->leader[1],1);?>.png");'></div>
+                    <div class="leader-img player_2_leader" style='background-image: url("<?=$Leader2->img;?>");'></div>
+                    <div class="aspects"><?=printAspects($aspects2);?></div>
                 </div>
-                <div class="base-img player_2_base" style='background-image: url("https://swudb.com/images/cards/<?=getCodeNumber($Premier->base[1],0);?>/<?=getCodeNumber($Premier->base[1],1);?>.png");'></div>
-                <div class="player_2_life life"><?=$Premier->life[1];?></div>
+                <div class="base-img player_2_base" style='background-image: url("<?=$Base2->img;?>");'></div>
+                <div class="base-life">
+                    <div class="player_2_life life"><?=$Premier->life[1];?></div>
+                </div>
             </div>
         </div>
     </main>
@@ -54,14 +105,15 @@ if(isset($_GET['id'])){
 
 <?php
 
-function getCodeNumber($codeNumber,$id = null){
-    $return = [];
-    if (preg_match('/([A-Z]+)(\d+)/', $codeNumber, $matches)) {
-        $return[] = $matches[1];
-        $return[] = $matches[2];
+function printAspects(array $aspects){
+    $return = '';
+    
+    foreach($aspects as $aspect){
+        $return .= '<div class="aspects-img" ';
+        if($aspect->img === null) $return .= 'style="background-image: none;">';
+        else $return .= 'style="background-image: url(\''.$aspect->img.'\');"></div>';
     }
 
-    if($id !== null) return $return[$id];
-    else $return;
+    return $return;
 }
 ?>

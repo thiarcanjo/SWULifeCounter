@@ -21,10 +21,11 @@
 </head>
 <body>
     <main>
-        <div class="top-menu">
-            <div class="gohome w10 h10" onclick="goHome();">
+        <div class="top-menu w10">
+            <div class="go-home w2" onclick="goHome();">
                 <span class="fa fa-home"></span><span>BEGIN</span>
             </div>
+            <div class="clock w6"><span class="fa fa-clock"></span><div id="clock"></div></div>
         </div>
         <div class="main-container">
             <div class="row w10 h5 rot">
@@ -91,16 +92,12 @@
             </div>
         </div>
     </main>
-    <footer>
-        <p>
-            SWU Lifecounter is an unofficial fan site. All imagens and Text from CARDS and about Star Wars: Unlimited, including card images and aspect symbols, is copyright Fantasy Flight Publishing Inc and Lucasfilm Ltd.
-            <br>
-            All other content © 2025 - SWU: Life Counter - Developed by Arcanjo
-        </p>
-    </footer>
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/nosleep/0.12.0/NoSleep.min.js"></script>
     <script src="./js/default.js"></script>
     <script src="./js/bd.js"></script>
     <script src="./js/counter.js"></script>
     <script src="./js/twinsuns.js"></script>
+    <script src="./js/clock.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>

@@ -1,12 +1,12 @@
 <?php
 require_once __DIR__.'/UTILS/autoload.php';
-use \SQL\Premier;
+use \SQL\Entity\Premier;
 use \UTILS\Session;
 
 if(isset($_GET['session'])){
     if(!(Session::close())) header("HTTP/1.1 400 Bad Request");
 }
-elseif(Session::start()){ // NO AJAX
+elseif(Session::start()){// NO AJAX
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -31,9 +31,10 @@ elseif(Session::start()){ // NO AJAX
 <body>
     <main>
         <div class="top-menu w10">
-            <div class="go-home w8" onclick="goHome();">
+            <div class="go-home w2" onclick="goHome();">
                 <span class="fa fa-home"></span><span>BEGIN</span>
             </div>
+            <div class="clock w6"><span class="fa fa-clock"></span><div id="clock"></div></div>
             <div class="id w2" id="premier_id"><?= Session::getPremierID(); ?></div>
         </div>
         <div class="main-container">
@@ -44,6 +45,11 @@ elseif(Session::start()){ // NO AJAX
             <div id="player_2" class="player_div">
                 <div class="count w10"></div>
                 <div class="leader_data"></div>
+            </div>
+            <div class="game-buttons">
+                <span class="btn reset" href="#" onclick="resetScore();">
+                    <i class="fa fa-redo fa-2x"></i>
+                </span>
             </div>
         </div>
     </main>
@@ -60,6 +66,7 @@ elseif(Session::start()){ // NO AJAX
     <script src="./js/bd.js"></script>
     <script src="./js/counter.js"></script>
     <script src="./js/ajax.js"></script>
+    <script src="./js/clock.js"></script>
 </body>
 
 <?php

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <link rel="icon" href="./imgs/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="./css/reset.css">
+    <link rel="stylesheet" href="./css/vars.css">
+    <link rel="stylesheet" href="./css/default.css">
+    <link rel="stylesheet" href="./css/home.css">
+    <link rel="stylesheet" href="./css/sizes.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/solid.css"/>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/fontawesome.css"/>
+    <title>SWU: Life Counter</title>
+</head>
+<body>
+    <header>
+        <div class="logo"></div>
+        <h1>SWU: Life Counter</h1>
+    </header>
+    <main>
+        <div class="main-container">
+            <div class="menu">
+                <a href="index.html"><span class="fa fa-home"></span> HOME</a>
+                <a href="#premier"><span class="fas fa-user-friends"></span> PREMIER GAME</a>
+                <a href="#twisuns"><span class="fas fa-users"></span> TWINSUS GAME</a>
+            </div>
+            <hr>
+            <div class="tutorial">
+                <table>
+                    <tr>
+                        <td class="w10 title" colspan="2" id="premier"><h1>PREMIER GAME</h1></td>
+                    </tr>
+                    <tr>
+                        <td class="w5 img-td"><img src="./imgs/tutorial/first_menu.png"></td>
+                        <td class="w5">
+                            <p>Click on PREMIER</p>
+                            <p>If you are at a known store on the list and in a tournament, select the store before clicking the option.</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="w5 img-td"><img src="./imgs/tutorial/menu_players.png"></td>
+                        <td class="w5">
+                            <p>Select Base and Leader for each Player</p>
+                            <p>For fun games, you can click on QUICK START to start a game without infos.</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="w5 img-td"><img src="./imgs/tutorial/menu_superior.png"></td>
+                        <td class="w5">
+                            <p>On top menu you have:</p>
+                            <p><span class="fa fa-home"></span> BEGIN - Back to Home Menu</p>
+                            <p><span class="fa fa-clock"></span> START CLOCK - Clock for games</p>
+                            <p>ID - For live games and streaming</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="w5 img-td">
+                            <img src="./imgs/tutorial/start_clock.png">
+                            <img src="./imgs/tutorial/clock.png">
+                        </td>
+                        <td class="w5">
+                            <p>Click on START CLOCK to initiate your 55 minutes</p>
+                            <p>Click again to stop the game and reset the clock</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="w5 img-td">
+                            <img src="./imgs/tutorial/leader_noEpic.png">
+                            <img src="./imgs/tutorial/leader_Epic.png">
+                        </td>
+                        <td class="w5">
+                            <p>Click on your Leader image when use Epic Action</p>
+                            <p>Click again to reset.</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="w5 img-td">
+                            <img src="./imgs/tutorial/base_epic.png">
+                            <img src="./imgs/tutorial/base_epicUsed.png">
+                        </td>
+                        <td class="w5">
+                            <p>For Bases with Epic Action, click on Epic Action Token</p>
+                            <p>Click again to reset.</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="w5 img-td">
+                            <img src="./imgs/tutorial/reset_button_noUsed.png">
+                            <img src="./imgs/tutorial/reset_button.png">
+                        </td>
+                        <td class="w5">
+                            <p>Click on <i class="fa fa-redo"></i> to reset the game and start again</p>
+                            <p>All counters and Epic Actions will be reset.</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="w10 title" colspan="2" id="twisuns"><h1>TWINSUNS GAME</h1></td>
+                    </tr>
+                    <tr>
+                        <td class="w5 img-td"><img src="./imgs/tutorial/first_menu.png"></td>
+                        <td class="w5">
+                            <p>Click on TWISUNS</p>
+                            <p>Don't need to select any store, this format don't have live games and streaming support, for now.</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="w5 img-td"><img src="./imgs/tutorial/twisuns_basic.png"></td>
+                        <td class="w5">
+                            <p>Like on Premier, select Base and Leaders for each player</p>
+                            <p>Click on QUICK START to start quickly.</p>
+                            <p>Each player has a number and a color for identification.</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="w5 img-td"><img src="./imgs/tutorial/twisuns.png"></td>
+                        <td class="w5">
+                            <p>The CLOCK and Leader's Epic Action, works like Premier format.</p>
+                            <p>Here, if a base has Epic Action, will work like Leader's, click on top when used.</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="w5 img-td"><img src="./imgs/tutorial/ts_buttons.png"></td>
+                        <td class="w5">
+                            <p>In Twinsuns will have 3 Tokens to get:</p>
+                            <p>INITIATIVE - Player who will start the next round.</p>
+                            <p>PLAN - Buy 1 card from your deck and put 1 card on the bottom of your deck.</p>
+                            <p>BLAST - Deal 1 damage to enemy bases.</p>
+                            <p>After start of the next round, click on <i class="fa fa-redo"></i> for reset tokens place.</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="w5 img-td"><img src="./imgs/tutorial/token_selected.png"></td>
+                        <td class="w5">
+                            <p>Click on a token and then select the player who wants take that token.</p>
+                            <p>Selected token will stay on that Player area.</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="w5 img-td"><img src="./imgs/tutorial/blast_token.png"></td>
+                        <td class="w5">
+                            <p>If Blast Token was selected, each enemy base will be dealt 1 damage automaticaly.</p>
+                            <p>Selected token will stay on that Player area.</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="w5 img-td"><img src="./imgs/tutorial/reset_token.png"></td>
+                        <td class="w5">
+                            <p>Once all tokens are selected and a new round begins,</p>
+                            <p>Click on <i class="fa fa-redo"></i> to reset tokens place.</p>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <p>
+            SWU: Life Counter is an unofficial fan site. All imagens and Text from CARDS and all about Star Wars: Unlimited, including card images and aspect symbols, is copyright Fantasy Flight Publishing Inc and Lucasfilm Ltd.
+            <br>
+            All other content © 2025 - SWU: Life Counter - Developed by Arcanjo
+        </p>
+    </footer>
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <script src="./js/default.js"></script>
+    <script>
+        $(document).ready(function() {
+            $(".tutorial p").prepend('<i class="fa fa-caret-right"></i> ');
+        });
+    </script>
+</body>
+</html>

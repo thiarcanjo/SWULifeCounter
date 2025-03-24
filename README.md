@@ -1,3 +1,5 @@
-All project working
+All working.
 
-Open index.html for Home Menu
+Open index.php.
+
+HOW TO USE explain system functions.
