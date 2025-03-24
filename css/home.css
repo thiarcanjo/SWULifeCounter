@@ -1,48 +1,156 @@
 header{
     display: flex;
+    box-sizing: border-box;
     flex-direction: column;
     flex-wrap: wrap;
-    justify-content: center; /* Centraliza horizontalmente */
-    vertical-align: middle;
-    width: 100vw;
-    height: 20vh;
+    justify-content: center;
+    width: 95%;
+    height: 150px;
+    padding: 5px;
+    margin: 0;
 }
 header .logo {
-    display: flex;
+    display: inline-block;
+    box-sizing: border-box;
     width: 100%;
-    height: 90%;
+    height: 60%;
+    margin-bottom: 5px;
+    padding: 5px;
     background-image: url("../imgs/logo.png");
     background-repeat: no-repeat;
     background-size: contain;
-    background-position: center; /* left top */
+    background-position: center;
+    flex-shrink: 0;
 }
 header h1 {
+    display: inline-block;
+    box-sizing: border-box;
     width: 100%;
-    height: 10%;
-    font-size: 2.5rem; /* Tamanho da fonte */
+    height: auto;
+    font-size: 4vh; /* Tamanho da fonte */
     font-weight: 700;
-    text-align: center; /* Alinha o texto ao centro */
-    letter-spacing: 0.4rem; /* Espaçamento entre letras */
-    -webkit-text-stroke-width: 2px; /* Largura da borda */
-    -webkit-text-stroke-color: #222831; /* Cor da borda */
+    text-align: center;
+    letter-spacing: 0.4rem;
+    margin: 0;
+    flex-grow: 1;
 }
 
 main{
+    display: flex;
+	flex-direction: column;
+    flex-wrap: wrap;
     box-sizing: border-box;
     margin-top: 10px;
-    height: 80vh;
-    overflow-y: scroll;
+    width: 95vw;
+    height: calc(95vh - 150px - 100px);
+}
+
+hr{
+    border: 1px solid darkred;
+    width: 100%;
 }
 
 /* MAIN CONTAINER */
 .main-container{
-    display: flex; /* Usa Flexbox para layout */
-    flex-direction: column; /* Alinha os itens na vertical */
+    display: flex;
+    box-sizing: border-box;
+    flex-direction: column;
     width: 100%;
-    height: 95%;
-    align-items: center; /* Centraliza os itens horizontalmente */
-    justify-content: flex-start; /* posiciona os itens verticalmente */
-    padding-top: 20px;
+    height: 100%;
+    align-items: center;
+    justify-content: flex-start;
+    padding-top: 10px;
+    overflow: hidden;
+}
+
+.main-container .menu{
+    display: flex;
+    box-sizing: border-box;
+    flex-direction: row;
+    justify-content: start;
+    align-items: center;
+    overflow-y: hidden;
+    width: 100%;
+    height: 30px;
+    cursor: pointer;
+    z-index: 10;
+    flex-shrink: 0;
+}
+.main-container .menu a{
+    width: 100px;
+    height: 30px;
+    line-height: 30px;
+    padding: 5px;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+    background-color: #30475E;
+    margin-right: 10px;
+    text-decoration: none;
+    color: #FFF;
+}
+.main-container .tutorial {
+    display: flex;
+    box-sizing: border-box;
+    flex-direction: column;
+    width: 100%;
+    height: 0;
+    flex-grow: 1;
+    overflow-y: auto;
+    border: none;
+    margin: 0;
+    padding: 0;
+    text-align: justify;
+    align-items: center;
+}
+.main-container .tutorial table{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: auto;
+    border: none;
+    margin: none;
+    padding: 0;
+    text-align: justify;
+}
+.main-container .tutorial tr{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    border-bottom: 1px solid #ccc;
+}
+.main-container .tutorial tr a{
+    text-decoration: none;
+    color: #FFF;
+}
+.main-container .tutorial td{
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    justify-content: center;
+    align-items: start;
+    text-align: justify;
+}
+.main-container .tutorial .title{
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    height: 30px;
+    padding: 10px;
+    font-weight: 600;
+}
+.main-container .tutorial td p{
+    margin: 0 5px;
+    margin-bottom: 10px;
+}
+.main-container .tutorial .img-td{
+    background-color: #333;
+    align-items: center;
+}
+.main-container .tutorial img{
+    margin: 10px;
+    width: 70%;
+    height: auto;
 }
 
 /* Estiliza a caixa de resultados da pesquisa */
@@ -103,29 +211,29 @@ main{
 .form-formatos .formato-option label:hover, .form-formatos .formato-option select:hover {
     background-color: #fddebb;
 }
-.form-formatos hr{
-    border: 1px solid darkred;
-    width: 90%;
-}
 
 /* Estiliza o botão de START */
-.form-formatos .submit{
-    height: 100%;
+.btn-link{
+    display: flex;
     justify-content: center;
-    display: none;
-}
-.form-formatos .submit button {
+    align-self: center;
     width: 50%;
-    padding: 10px; /* Espaçamento interno */
+    height: 100%;
+    padding: 10px;
     border: none;
-    border-radius: 15px; /* Borda arredondada */
-    background-color: #30475E; /* Cor de fundo do botão */
-    color: #F5F7F8; /* Cor do texto do botão */
-    font-size: 1rem; /* Tamanho da fonte */
-    cursor: pointer; /* Muda o cursor para indicar que é clicável */
-    align-items: center;
+    border-radius: 15px;
+    background-color: #30475E; 
+    color: #F5F7F8;
+    font-size: 1rem;
+    cursor: pointer;
+    text-decoration: none;
 }
-/* Adiciona efeito hover ao botão de pesquisa */
-.form-formatos .submit button:hover {
-    background-color: darkred; /* Muda a cor de fundo ao passar o mouse */
+.btn-link:hover, .menu a:hover{
+    background-color: darkred;
+}
+
+@media (max-width: 768px) {
+    header h1 {
+        font-size: 1.0rem; /* Ou outro valor que você achar adequado */
+    }
 }
