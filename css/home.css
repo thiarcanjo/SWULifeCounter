@@ -1,0 +1,239 @@
+header{
+    display: flex;
+    box-sizing: border-box;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 95%;
+    height: 150px;
+    padding: 5px;
+    margin: 0;
+}
+header .logo {
+    display: inline-block;
+    box-sizing: border-box;
+    width: 100%;
+    height: 60%;
+    margin-bottom: 5px;
+    padding: 5px;
+    background-image: url("../imgs/logo.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    flex-shrink: 0;
+}
+header h1 {
+    display: inline-block;
+    box-sizing: border-box;
+    width: 100%;
+    height: auto;
+    font-size: 4vh; /* Tamanho da fonte */
+    font-weight: 700;
+    text-align: center;
+    letter-spacing: 0.4rem;
+    margin: 0;
+    flex-grow: 1;
+}
+
+main{
+    display: flex;
+	flex-direction: column;
+    flex-wrap: wrap;
+    box-sizing: border-box;
+    margin-top: 10px;
+    width: 95vw;
+    height: calc(95vh - 150px - 100px);
+}
+
+hr{
+    border: 1px solid darkred;
+    width: 100%;
+}
+
+/* MAIN CONTAINER */
+.main-container{
+    display: flex;
+    box-sizing: border-box;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    justify-content: flex-start;
+    padding-top: 10px;
+    overflow: hidden;
+}
+
+.main-container .menu{
+    display: flex;
+    box-sizing: border-box;
+    flex-direction: row;
+    justify-content: start;
+    align-items: center;
+    overflow-y: hidden;
+    width: 100%;
+    height: 30px;
+    cursor: pointer;
+    z-index: 10;
+    flex-shrink: 0;
+}
+.main-container .menu a{
+    width: 100px;
+    height: 30px;
+    line-height: 30px;
+    padding: 5px;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+    background-color: #30475E;
+    margin-right: 10px;
+    text-decoration: none;
+    color: #FFF;
+}
+.main-container .tutorial {
+    display: flex;
+    box-sizing: border-box;
+    flex-direction: column;
+    width: 100%;
+    height: 0;
+    flex-grow: 1;
+    overflow-y: auto;
+    border: none;
+    margin: 0;
+    padding: 0;
+    text-align: justify;
+    align-items: center;
+}
+.main-container .tutorial table{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: auto;
+    border: none;
+    margin: none;
+    padding: 0;
+    text-align: justify;
+}
+.main-container .tutorial tr{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    border-bottom: 1px solid #ccc;
+}
+.main-container .tutorial tr a{
+    text-decoration: none;
+    color: #FFF;
+}
+.main-container .tutorial td{
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    justify-content: center;
+    align-items: start;
+    text-align: justify;
+}
+.main-container .tutorial .title{
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    height: 30px;
+    padding: 10px;
+    font-weight: 600;
+}
+.main-container .tutorial td p{
+    margin: 0 5px;
+    margin-bottom: 10px;
+}
+.main-container .tutorial .img-td{
+    background-color: #333;
+    align-items: center;
+}
+.main-container .tutorial img{
+    margin: 10px;
+    width: 70%;
+    height: auto;
+}
+
+/* Estiliza a caixa de resultados da pesquisa */
+.form-formatos {
+    display: flex;
+    flex-direction: column; /* Alinha os itens na vertical */
+    flex-wrap: wrap;
+    justify-content: center;
+    box-sizing: border-box;
+    width: 100%; /* Largura máxima da caixa de resultados */
+    margin: 10px; /* Espaçamento acima da caixa de resultados */
+    padding: 10px; /* Espaçamento interno */
+    text-align: center;
+}
+.form-formatos h2{
+    font-size: 1.5rem; /* Tamanho da fonte */
+    margin: 5px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #F00;
+}
+.form-formatos .formato-option {
+    display: flex;
+    flex-direction: column;
+    justify-items: center;
+    margin: 20px auto;
+    padding: 5px;
+    border: none;
+    text-align: center;
+    flex: 1; /* Faz com que cada div ocupe o mesmo espaço */
+    width: 80%; /* Largura máxima da caixa de resultados */
+}
+.form-formatos .formato-option div{
+    width: 80%;
+    margin-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    justify-content: space-around;
+}
+.form-formatos .formato-option input[type="radio"] {
+    display: none;
+}
+.form-formatos .formato-option input[type="radio"]:checked + label {
+    background-color: #333255; /* Cor para o botão selecionado */
+    color: white;
+}
+.form-formatos .formato-option label, .form-formatos .formato-option select {
+    width: 100%;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.25rem; /* Tamanho da fonte */
+    padding: 5px;
+}
+.form-formatos .formato-option select {
+    font-size: 1rem; /* Tamanho da fonte */
+}
+.form-formatos .formato-option label:hover, .form-formatos .formato-option select:hover {
+    background-color: #fddebb;
+}
+
+/* Estiliza o botão de START */
+.btn-link{
+    display: flex;
+    justify-content: center;
+    align-self: center;
+    width: 50%;
+    height: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 15px;
+    background-color: #30475E; 
+    color: #F5F7F8;
+    font-size: 1rem;
+    cursor: pointer;
+    text-decoration: none;
+}
+.btn-link:hover, .menu a:hover{
+    background-color: darkred;
+}
+
+@media (max-width: 768px) {
+    header h1 {
+        font-size: 1.0rem; /* Ou outro valor que você achar adequado */
+    }
+}

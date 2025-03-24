@@ -1,0 +1,20 @@
+/* Importa a fonte Chakra Petch do Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap');
+
+:root{
+    /** FONT **/
+    --font-chakra: "Chakra Petch", sans-serif;
+
+    /** ASPECTS COLORS **/
+    --aspect-g: #393;
+    --aspect-y: #F80;
+    --aspect-b: #039;
+    --aspect-r: #D30;
+    --aspect-n: #666;
+
+    /** BACKGROUND PLAYERS COLORS **/
+    --player-1: darkblue;
+    --player-2: darkorange;
+    --player-3: darkred;
+    --player-4: darkolivegreen;
+}
