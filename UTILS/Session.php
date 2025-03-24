@@ -1,21 +1,22 @@
 <?php
 namespace UTILS;
-use \SQL\Premier;
+use \SQL\Entity\Premier;
+use \SQL\Entity\Store;
 
 class Session
 {
-   /**
-    * Inicia a SESSION
-    */
-   private static function init()
-   {
+    /**
+     * BEGIN a SESSION
+     */
+    private static function init()
+    {
         if (session_status() == 1) session_start();
-   }
+    }
 
-   /**
-    * CREATE A Premier Game
-    * @return Premier
-    */
+    /**
+     * CREATE A Premier Game
+     * @return Premier
+     */
     public static function start($live = false)
     {
         self::init();
@@ -34,19 +35,55 @@ class Session
         }
     }
 
-   /**
-    * GET Premier ID
-    */
+    /**
+     * SET Store Game
+     * 
+     * @return boolean
+     */
+    public static function setStore($store = null)
+    {
+        self::init();
+        if($store !== null){
+            try {
+                $Store = new Store();
+                $Store = $Store->getByCode($store);
+                $_SESSION['store'] = $Store->code;
+                return true;
+            } catch (Exception $e) {
+                error_log("Erro ao setar Store: " . $e->getMessage());
+                return false;
+            }
+        }
+        else unset($_SESSION['store']);
+    }
+
+    /**
+     * GET Store
+     */
+    public static function getStore()
+    {
+        if (isset($_SESSION['store'])) {
+            return $_SESSION['store'];
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * GET Premier ID
+     */
     public static function getPremierID()
     {
         if (isset($_SESSION['premier_id'])) {
             return $_SESSION['premier_id'];
         } else {
-            error_log("Premier ID não encontrado na sessão. ID da sessão: " . session_id());
             return false;
         }
     }
 
+    /**
+     * CLOSE a SESSION
+     */
     public static function close()
     {
         if (session_status() == 2) {
