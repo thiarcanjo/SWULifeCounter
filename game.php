@@ -3,6 +3,10 @@ require_once __DIR__.'/UTILS/autoload.php';
 use \SQL\Entity\Premier;
 use \SQL\Entity\Card;
 use \UTILS\Session;
+use \UTILS\ENV;
+
+// LOAD GLOBAL VARS
+ENV::load(__DIR__);
 
 if(isset($_GET['id'])){
     $Premier = new Premier(['premier_id' => $_GET['id']]);

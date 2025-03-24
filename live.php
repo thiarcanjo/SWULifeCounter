@@ -2,6 +2,10 @@
 require_once __DIR__.'/UTILS/autoload.php';
 use \SQL\Entity\Premier;
 use \UTILS\Session;
+use \UTILS\ENV;
+
+// LOAD GLOBAL VARS
+ENV::load(__DIR__);
 
 ?>
 <!DOCTYPE html>
