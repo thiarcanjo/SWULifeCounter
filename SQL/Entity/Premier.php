@@ -26,7 +26,7 @@ class Premier extends Model
    */
    public function __construct($vars = [])
    {
-      $this->path_class = "\SQL\Premier";
+      $this->path_class = "\SQL\Entity\Premier";
       $this->setDAO();
 
       if(!empty($vars))

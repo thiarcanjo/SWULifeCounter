@@ -1,32 +1,63 @@
+/* ADJUST GAME SCREEN SIZE */
 main{
-    display: flex;
-	flex-direction: column;
-    box-sizing: border-box;
-    width: 100%;
-	height: 100%;
-    flex-grow: 1;
-}
-.top-menu{
-    display: flex;
-    box-sizing: border-box;
-    height: 50px;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 10px;;
-    flex-shrink: 0;
+    height: calc(100% - 80px);
+    justify-content: flex-start;
+	position: relative;
 }
 
+/* MENU */
+.top-menu{
+    display: flex;
+	flex-direction: row;
+    align-items: center;
+    width: 100%;
+    height: 30px;
+    margin: 0;
+    padding-top: 2px;
+    border-bottom: 1px solid #FFF;
+    justify-content: center;
+    z-index: 10;
+}
+.top-menu div{
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    align-items: center;
+    height: 100%;
+    line-height: 100%;
+    font-size: clamp(10px, 12px, 14px);
+    color: #FFF;
+    cursor: pointer;
+}
+.top-menu .fa{
+    margin-right: 5px;
+}
+.top-menu .go-home{
+    justify-content: left;
+    padding-left: 10px;
+}
+.top-menu .clock {
+    justify-content: center;
+    align-self: center;
+}
+.top-menu div:hover{
+    background-color: darkred;
+}
+
+/* MAIN CONTAINER PREMIER */
 .main-container{
     display: flex;
-    box-sizing: border-box;
-	flex-direction: column;
-    flex-wrap: wrap;
-    width: 100%;
-    height: 70%;
-    justify-content: flex-start;
+    flex-direction: column;
+    width: 620px;
+    height: 390px;
+    justify-content: flex-end;
+    align-items: center;
     border: none;
-	background-color: transparent;
+    margin: 0;
+    padding: 0;
 	transform: rotate(90deg);
+	margin-top: 120px;
+    overflow: hidden;
 }
 
 .main-container .row{
@@ -42,7 +73,6 @@ main{
     display: flex;
 	flex-direction: column;
     align-items: flex-start;
-    box-sizing: border-box;
     transform: none;
 }
 .player_div .row{
@@ -80,7 +110,8 @@ main{
 }
 .player_div .leader_data .leader-img {
     display: flex;
-    box-sizing: border-box;
+	position: relative;
+	margin-top: 30px;
 	border-radius: 50%;
 	overflow: hidden;
 	border: 2px solid #FFF;
@@ -97,6 +128,7 @@ main{
 /* BASE */
 .player_div .base_data{
 	display: flex;
+	position: relative;
     padding: 0;
     border: none;
 	justify-content: center;
@@ -112,6 +144,10 @@ main{
 	background-position: left top; /* left top */
 	width: 100%;
     height: 100%;
+}
+.epicToken-img{
+	height: 80%;
+	margin-right: 5px;
 }
 
 .leader_data .leader-img:hover, 
@@ -135,7 +171,6 @@ main{
 }
 .player_div .token img{
     display: flex;
-	box-sizing: border-box;
 	justify-self: center;
     width: 90%;
     height: 90%;
@@ -187,63 +222,63 @@ main{
 }
 
 /* TOKENS */
-.ts_buttons{
-    position: absolute;
-    box-sizing: border-box;
-    display: flex;
-	align-items: center;
-	align-self: center;
-	bottom: 50%;
-    width: 500px;
-    height: 100px;
-    padding: 5px;
-    justify-content: space-around;
-    background-color: rgba(255,255,255,0.2);
-    border-radius: 10px;
-    border: none;
-    z-index: 15;
-	transform: rotate(-90deg);
-}
-.ts_buttons .btn{
-    border: none;
-    padding: 5px;
-	margin: 5px;
-    background-color: transparent;
-	justify-content: center;
-    align-items: center;
-    border-radius: 5px;
-    width: 60px;
-    height: 60px;
-    cursor: pointer;
-    transform: rotate(90deg);
-}
-.ts_buttons .btn:hover{
-    background-color: brown;
-}
-.ts_buttons .clear span {
-    display: flex;
-	flex-direction: column;
-    box-sizing: border-box;
-    text-align: center;
-    align-items: center;
-	text-align: center;
-    justify-content: center;
-    width: 100%;
-}
-.ts_buttons .clear i {
-	display: flex;
-	justify-self: center;
-	align-self: center;
-}
-.ts_buttons .clear:hover{
-    background-color: transparent;
-    color: Tomato;
-}
-.ts_buttons .btn img{
-    width: 90%;
-    height: 90%;
-    object-fit: contain;
-}
+	.ts_buttons{
+		display: flex;
+		position: absolute;
+		align-items: center;
+		align-self: center;
+		width: 270px;
+		height: 60px;
+		padding: 5px;
+		top: 50%;
+		left: 50%;
+		justify-content: space-around;
+		background-color: rgba(255,255,255,0.2);
+		border-radius: 10px;
+		border: none;
+		transform: translate(-50%, -50%) rotate(-90deg);
+		z-index: 15;
+	}
+	.ts_buttons .btn{
+		border: none;
+		padding: 5px;
+		margin: 5px;
+		background-color: transparent;
+		justify-content: center;
+		align-items: center;
+		border-radius: 5px;
+		width: 60px;
+		height: 60px;
+		cursor: pointer;
+		transform: rotate(90deg);
+	}
+	.ts_buttons .btn:hover{
+		background-color: brown;
+	}
+	.ts_buttons .clear span {
+		display: flex;
+		flex-direction: column;
+		box-sizing: border-box;
+		text-align: center;
+		align-items: center;
+		text-align: center;
+		justify-content: center;
+		width: 100%;
+	}
+	.ts_buttons .clear i {
+		display: flex;
+		justify-self: center;
+		align-self: center;
+	}
+	.ts_buttons .clear:hover{
+		background-color: transparent;
+		color: Tomato;
+	}
+	.ts_buttons .btn img{
+		width: 90%;
+		height: 90%;
+		object-fit: contain;
+	}
 
 /* POSITIONS */
 	/* PLAYER 1 */
@@ -277,51 +312,3 @@ main{
 	#player_4 .row{
 		justify-content: flex-end;
 	}
-
-/* Media query para telas menores (ex: dispositivos móveis) */
-@media (max-width: 600px) {
-	.top-menu{
-		margin-top: 0;
-		margin-left: -140px;
-		margin-top: -190px;
-	}
-	.main-container{
-		width: 700px;
-		height: 400px;
-		max-width: none;
-		max-height: none;
-		margin: 0;
-		margin-left: -140px;
-		margin-top: 150px;
-	}
-	.leader_data .leader-img {
-		background-position: -45px -25px; /* left top */
-		width: 35%;
-		height: 100%;
-	}
-	.ts_buttons {
-		width: 35%;
-		height: 15%;
-	}
-
-	.player_div .number{
-		width: 20px;
-		height: 20px;
-		line-height: 20px;
-		font-size: clamp(14px, 2vw, 20px);
-	}
-	.player_div .token img{
-		width: 100%;
-		height: 60%;
-		object-fit: cover;
-	}
-}
-
-/** SWEETALERT **/
-.swal2-radio label{
-	justify-self: center;
-	padding: 5px;
-	background-color: #F00;
-	color: #FFF;
-	font-weight: 400;
-}

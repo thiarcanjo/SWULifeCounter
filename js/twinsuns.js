@@ -22,6 +22,7 @@ function getToken(btn){
     Swal.fire({
         title: 'Which PLAYER wants: '+btnClicked[0]+'('+btnClicked[1]+')?',
         input: 'radio',
+        heightAuto: false,
         inputOptions,
         inputValidator: (value) => {
             if (!value) {
@@ -141,27 +142,9 @@ function tokenGetted(btn){
 }
 
 /**
- * Pega o posicionamento central da PAGE para centralizar o menu de tokens
- */
-function posMenuTokens(){
-    const buttonp1 = document.getElementById('base_p1');
-    const buttonp4 = document.getElementById('base_p4');
-    
-    // Obtém a posição do botão
-    const posButtonp1 = buttonp1.getBoundingClientRect();
-    const posButtonp4 = buttonp4.getBoundingClientRect();
-    var bottomPos = ((posButtonp4.bottom - posButtonp1.bottom)/2)+ posButtonp1.bottom;
-
-    bottomPos = bottomPos - (ts_buttons.offsetHeight / 2) - 90;
-    
-    // Define a posição da div flutuante
-    ts_buttons.style.top = bottomPos + 'px';
-}
-
-/**
  * Exibe menu para seleção de Bases e Líderes
  */
-function selectBasesLeaders(){
+async function selectBasesLeaders(){
     var bases = Array();
     var leaders = Array();
     for(let i=1;i<=4;i++){
@@ -182,8 +165,8 @@ function selectBasesLeaders(){
     }
 
     // BASES and LEADERS Options
-    bases = loadBases(bases);
-    leaders = loadLeaders(leaders);
+    bases = await loadBases(bases);
+    leaders = await loadLeaders(leaders);
     
     for(let i=0;i<bases.length;i++){
         var thisPlayer = document.getElementById('player_'+(i+1));
@@ -248,13 +231,13 @@ function sendPlayerSelection(button){
             
             if(leader_1.code != leader_2.code ){
                 var leader_1_type = '';
-                leader_1.aspect.forEach(e => {
-                    if((e.code == 'w' || e.code == 'b') && leader_1_type == '') leader_1_type = e.code;
+                leader_1.Aspects.forEach(e => {
+                    if((e.code == 'w' || e.code == 'k') && leader_1_type == '') leader_1_type = e.code;
                 });
 
                 var leader_2_type = '';
-                leader_2.aspect.forEach(e => {
-                    if((e.code == 'w' || e.code == 'b') && leader_2_type == '') leader_2_type = e.code;
+                leader_2.Aspects.forEach(e => {
+                    if((e.code == 'w' || e.code == 'k') && leader_2_type == '') leader_2_type = e.code;
                 });
                 
                 if(leader_1_type != leader_2_type) alert('Select LEADERS from the same Affiliation!');
@@ -284,7 +267,7 @@ function setPlayerTSDATA(playerData,playerID){
     var base_data = playerDIV.getElementsByClassName("base_data");
     var base_img = document.createElement('div');
     base_img.className = 'base-img';
-    base_img.style.setProperty('background-image','url("https://swudb.com/images/cards/'+dbBase.collection.code+'/'+dbBase.number+'.png")');
+    base_img.style.setProperty('background-image','url("'+dbBase.img+'")');
     base_img.setAttribute('onclick','EpicActionToggle(this)');
     base_data[0].append(base_img);
     
@@ -296,7 +279,7 @@ function setPlayerTSDATA(playerData,playerID){
         for(let l=0;l<2;l++){
             var leader = document.createElement('div');
             leader.className = "leader-img";
-            leader.style.setProperty('background-image','url("https://swudb.com/images/cards/'+dbLeader[l].collection.code+'/'+dbLeader[l].number+'.png")');
+            leader.style.setProperty('background-image','url("'+dbLeader[l].img+'")');
             leader.setAttribute('onclick','EpicActionToggle(this)');
             leader_data[0].append(leader);
         }
@@ -310,4 +293,3 @@ function setPlayerTSDATA(playerData,playerID){
 }
 
 selectBasesLeaders();
-posMenuTokens();

@@ -1,5 +1,6 @@
 <?php
 namespace SQL\Entity;
+use \PDO;
 
 /**
 * Classe abstrata Modelo para entidades do DB

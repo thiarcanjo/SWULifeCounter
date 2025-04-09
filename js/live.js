@@ -31,7 +31,7 @@ $(document).ready(function()
           base1Cell.className = "";
           var base1_img = document.createElement('div');
           base1_img.className = "base-img player_1_base";
-          getCard('player_1', item.base[0]).then( dbBase => {
+          getCard(item.base[0]).then( dbBase => {
             base1_img.style.setProperty('background-image', 'url("'+dbBase.img+'")');
           });
           base1Cell.append(base1_img);;
@@ -41,7 +41,7 @@ $(document).ready(function()
           leader1Cell.className = "";
           var leader1_img = document.createElement('div');
           leader1_img.className = "leader-img player_1_leader";
-          getCard('player_1', item.leader[0]).then( dbLeader => {
+          getCard(item.leader[0]).then( dbLeader => {
             leader1_img.style.setProperty('background-image', 'url("'+dbLeader.img+'")');
           });
           leader1Cell.append(leader1_img);
@@ -65,7 +65,7 @@ $(document).ready(function()
           leader2Cell.className = "";
           var leader2_img = document.createElement('div');
           leader2_img.className = "leader-img player_2_leader";
-          getCard('player_2', item.leader[1]).then( dbLeader => {
+          getCard(item.leader[1]).then( dbLeader => {
             leader2_img.style.setProperty('background-image', 'url("'+dbLeader.img+'")');
           });
           leader2Cell.append(leader2_img);
@@ -75,7 +75,7 @@ $(document).ready(function()
           base2Cell.className = "";
           var base2_img = document.createElement('div');
           base2_img.className = "base-img player_2_base";
-          getCard('player_2', item.base[1]).then( dbBase => {
+          getCard(item.base[1]).then( dbBase => {
             base2_img.style.setProperty('background-image', 'url("'+dbBase.img+'")');
           });
           base2Cell.append(base2_img);;

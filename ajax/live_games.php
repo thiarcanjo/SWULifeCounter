@@ -4,6 +4,10 @@ use \SQL\Entity\Premier;
 use \SQL\Entity\PremierLive;
 use \SQL\Entity\Store;
 use \UTILS\Session;
+use \UTILS\ENV;
+
+// LOAD GLOBAL VARS
+ENV::load(__DIR__);
 
 // AJAX response for LIVE GAMES
 if(isset($_GET['store'])){

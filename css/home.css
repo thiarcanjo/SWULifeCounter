@@ -1,96 +1,176 @@
-header{
-    display: flex;
-    box-sizing: border-box;
-    flex-direction: column;
-    flex-wrap: wrap;
-    justify-content: center;
-    width: 95%;
-    height: 150px;
-    padding: 5px;
-    margin: 0;
-}
+/** HEADER LOGO **/
 header .logo {
-    display: inline-block;
-    box-sizing: border-box;
+    display: block;
     width: 100%;
-    height: 60%;
-    margin-bottom: 5px;
-    padding: 5px;
+    height: calc(70% - 10px);
+    margin: 5px auto;
+    padding: 0;
     background-image: url("../imgs/logo.png");
     background-repeat: no-repeat;
     background-size: contain;
     background-position: center;
-    flex-shrink: 0;
 }
 header h1 {
-    display: inline-block;
-    box-sizing: border-box;
+    display: flex;
     width: 100%;
-    height: auto;
-    font-size: 4vh; /* Tamanho da fonte */
+    height: 30%;
+    align-items: center;
+    justify-content: center;
+    font-size: clamp(18px, 20px, 24px);
     font-weight: 700;
     text-align: center;
-    letter-spacing: 0.4rem;
+    letter-spacing: 6px;
     margin: 0;
-    flex-grow: 1;
-}
-
-main{
-    display: flex;
-	flex-direction: column;
-    flex-wrap: wrap;
-    box-sizing: border-box;
-    margin-top: 10px;
-    width: 95vw;
-    height: calc(95vh - 150px - 100px);
-}
-
-hr{
-    border: 1px solid darkred;
-    width: 100%;
+    padding: 0;
 }
 
 /* MAIN CONTAINER */
 .main-container{
     display: flex;
-    box-sizing: border-box;
     flex-direction: column;
     width: 100%;
     height: 100%;
+    margin: 0;
+    padding: 5px;
     align-items: center;
     justify-content: flex-start;
-    padding-top: 10px;
     overflow: hidden;
 }
 
+/* FORM - CHOOSE FORMAT */
+.main-container .format {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    box-sizing: border-box;
+    width: calc(100% - 20px);
+    height: auto;
+    margin: 10px;
+    text-align: center;
+}
+/* Estiliza a caixa de resultados da pesquisa */
+.format .title {
+    display: flex;
+    height: calc(15% - 10px);
+    width: calc(100% - 10px);
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: clamp(16px, 18px, 20px);
+    letter-spacing: 4px;
+    margin: 5px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid darkred;
+}
+.format .options {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    width: calc(100% - 10px);
+    border-bottom: 1px solid darkred;
+
+}
+.format .options div{
+    display: flex;
+    flex-direction: column;
+    justify-items: center;
+    justify-content: space-around;
+    width: 80%;
+    height: auto;
+    margin: 20px auto;
+    padding: 5px;
+    border: none;
+    text-align: center;
+    flex: 1;
+}
+.format .options input[type="radio"] {
+    display: none;
+}
+.format .options input[type="radio"]:checked + label {
+    background-color: #333255; /* Cor para o botão selecionado */
+    color: white;
+}
+.format .options label, .format .options select {
+    width: 100%;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: clamp(14px, 16px, 18px);
+    padding: 5px;
+    cursor: pointer;
+}
+.format .options label:hover, .format .options select:hover {
+    background-color: darkred;
+    color: #FFF;
+}
+
+/* BUTTON LINK */
+.btns{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 60px;
+    padding: 5px;
+    border: none;
+}
+.btns .btn-link{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+    height: calc(100% - 10px);
+    margin: 0;
+    border-radius: 15px;
+    background-color: #30475E; 
+    color: #F5F7F8;
+    font-size: clamp(14px, 16px, 18px);
+    cursor: pointer;
+    text-decoration: none;
+}
+.btn-link:hover {
+    background-color: darkred;
+}
+
+/* ABOUT MENU */
 .main-container .menu{
     display: flex;
-    box-sizing: border-box;
     flex-direction: row;
     justify-content: start;
     align-items: center;
-    overflow-y: hidden;
     width: 100%;
-    height: 30px;
+    height: 35px;
     cursor: pointer;
     z-index: 10;
     flex-shrink: 0;
 }
 .main-container .menu a{
-    width: 100px;
+    display: flex;
+    flex-direction: row;
+    width: 32%;
     height: 30px;
-    line-height: 30px;
-    padding: 5px;
+    justify-content: left;
+    align-items: center;
+    padding: 2px;
     border-top-right-radius: 15px;
     border-bottom-right-radius: 15px;
     background-color: #30475E;
+    font-size: clamp(10px, 12px, 14px);
     margin-right: 10px;
     text-decoration: none;
     color: #FFF;
 }
+.main-container .menu a span{
+    margin-right: 2px;
+}
+.menu a:hover{
+    background-color: darkred;
+}
+
+/* TUTORIAL TABLE */
 .main-container .tutorial {
     display: flex;
-    box-sizing: border-box;
     flex-direction: column;
     width: 100%;
     height: 0;
@@ -151,89 +231,4 @@ hr{
     margin: 10px;
     width: 70%;
     height: auto;
-}
-
-/* Estiliza a caixa de resultados da pesquisa */
-.form-formatos {
-    display: flex;
-    flex-direction: column; /* Alinha os itens na vertical */
-    flex-wrap: wrap;
-    justify-content: center;
-    box-sizing: border-box;
-    width: 100%; /* Largura máxima da caixa de resultados */
-    margin: 10px; /* Espaçamento acima da caixa de resultados */
-    padding: 10px; /* Espaçamento interno */
-    text-align: center;
-}
-.form-formatos h2{
-    font-size: 1.5rem; /* Tamanho da fonte */
-    margin: 5px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid #F00;
-}
-.form-formatos .formato-option {
-    display: flex;
-    flex-direction: column;
-    justify-items: center;
-    margin: 20px auto;
-    padding: 5px;
-    border: none;
-    text-align: center;
-    flex: 1; /* Faz com que cada div ocupe o mesmo espaço */
-    width: 80%; /* Largura máxima da caixa de resultados */
-}
-.form-formatos .formato-option div{
-    width: 80%;
-    margin-top: 20px;
-    margin-left: auto;
-    margin-right: auto;
-    justify-content: space-around;
-}
-.form-formatos .formato-option input[type="radio"] {
-    display: none;
-}
-.form-formatos .formato-option input[type="radio"]:checked + label {
-    background-color: #333255; /* Cor para o botão selecionado */
-    color: white;
-}
-.form-formatos .formato-option label, .form-formatos .formato-option select {
-    width: 100%;
-    display: inline-block;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 1.25rem; /* Tamanho da fonte */
-    padding: 5px;
-}
-.form-formatos .formato-option select {
-    font-size: 1rem; /* Tamanho da fonte */
-}
-.form-formatos .formato-option label:hover, .form-formatos .formato-option select:hover {
-    background-color: #fddebb;
-}
-
-/* Estiliza o botão de START */
-.btn-link{
-    display: flex;
-    justify-content: center;
-    align-self: center;
-    width: 50%;
-    height: 100%;
-    padding: 10px;
-    border: none;
-    border-radius: 15px;
-    background-color: #30475E; 
-    color: #F5F7F8;
-    font-size: 1rem;
-    cursor: pointer;
-    text-decoration: none;
-}
-.btn-link:hover, .menu a:hover{
-    background-color: darkred;
-}
-
-@media (max-width: 768px) {
-    header h1 {
-        font-size: 1.0rem; /* Ou outro valor que você achar adequado */
-    }
 }

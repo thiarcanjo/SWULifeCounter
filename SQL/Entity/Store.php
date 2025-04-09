@@ -20,7 +20,7 @@ class Store extends Model implements \JsonSerializable
    */
    public function __construct($vars = [])
    {
-      $this->path_class = "\SQL\Store";
+      $this->path_class = "\SQL\Entity\Store";
       $this->setDAO();
 
       if(!empty($vars))

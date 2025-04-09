@@ -20,7 +20,7 @@ class Collection extends Model implements \JsonSerializable
    */
    public function __construct($vars = [])
    {
-      $this->path_class = "\SQL\Collection";
+      $this->path_class = "\SQL\Entity\Collection";
       $this->setDAO();
 
       if(!empty($vars))

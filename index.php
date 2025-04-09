@@ -22,6 +22,7 @@ define('APP_NAME', getenv('APP_NAME'));
     <link rel="stylesheet" href="./css/vars.css">
     <link rel="stylesheet" href="./css/default.css">
     <link rel="stylesheet" href="./css/home.css">
+    <link rel="stylesheet" href="./css/game.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/solid.css"/>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/fontawesome.css"/>
     <title><?=APP_NAME;?></title>
@@ -33,29 +34,35 @@ define('APP_NAME', getenv('APP_NAME'));
     </header>
     <main>
         <div class="main-container">
-            <div class="form-formatos">
+            <div class="format">
                 <form id="SelectBasesLeaders" method="get">
-                    <div>
+                    <div class="title">
                         <h2>Choose a Format</h2>
                     </div>
-                    <div class="formato-option">
-                        <input type="radio" id="premier" name="formato" value="premier" onclick="callGame()">
-                        <label for="premier">Premier</label>
+                    <div class="options">
+                        <div>
+                            <label for="premier">
+                                <input type="radio" id="premier" name="formato" value="premier" onclick="callGame()">
+                                Premier
+                            </label>
+                        </div>
+                        <div>
+                            <label for="twinsuns">
+                                <input type="radio" id="twinsuns" name="formato" value="twinsuns" onclick="callGame()">
+                                TwinSuns
+                            </label>
+                        </div>
                     </div>
-                    <div class="formato-option">
-                        <input type="radio" id="twinsuns" name="formato" value="twinsuns" onclick="callGame()">
-                        <label for="twinsuns">TwinSuns</label>
+                    <div class="options">
+                        <div>
+                            <label for="store">
+                                <select id="store">
+                                    <option value="">SELECT A STORE IF YOU WISH</option>
+                                </select>
+                            </label>
+                        </div>
                     </div>
-                    <hr>
-                    <div class="formato-option">
-                        <label for="store">
-                            <select id="store">
-                                <option value="">SELECT A STORE IF YOU WISH</option>
-                            </select>
-                        </label>
-                    </div>
-                    <hr>
-                    <div class="formato-option">
+                    <div class="btns">
                         <a href="about.html" class="btn-link">HOW TO USE</a>
                     </div>
                 </form>
@@ -73,5 +80,8 @@ define('APP_NAME', getenv('APP_NAME'));
     <script src="./js/default.js"></script>
     <script src="./js/bd.js"></script>
     <script src="./js/app.js"></script>
+    <?php
+    if(isset($_GET['size'])) echo "<script>getWindowSize();</script>";
+    ?>
 </body>
 </html>

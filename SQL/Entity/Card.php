@@ -29,21 +29,24 @@ class Card extends Model implements \JsonSerializable
    */
    public function __construct($vars = [])
    {
-      $this->path_class = "\SQL\Card";
+      $this->path_class = "\SQL\Entity\Card";
       $this->setDAO();
 
       if(!empty($vars))
       {
-         $this->code = $vars['code'][0];
+         $this->code = (isset($vars['code'][0]))? $vars['code'][0] : $vars[0];
          $this->Collection = new Collection();
-         $this->Collection = $this->Collection->getByCode($vars['code'][1]);
-         $this->number = $vars['number'];
-         $this->type = $vars['type'];
+         $this->Collection = (isset($vars['code'][1]))? $this->Collection->getByCode($vars['code'][1]) : $this->Collection->getByCode($vars[8]);
+         $this->number = (isset($vars['number']))? $vars['number'] : $vars[2];
+         $this->type = (isset($vars['type']))? $vars['type'] : $vars[3];
          $this->getCardAspect(); // FIX GET ASPECTS
-         $this->name = $vars['name'][0];
-         $this->life = $vars['life'] ?? null;
-         $this->epic = $vars['epic'] ?? false;
-         $this->img  = $vars['img'][0] ?? null;
+         $this->name = (isset($vars['name'][0]))? $vars['name'][0] : $vars[4];
+         if(isset($vars['life']) || isset($vars[5])) $this->life = $vars['life']?? $vars[5];
+         else $this->life = null;
+         if(isset($vars['epic']) || isset($vars[6])) $this->epic = $vars['epic']?? $vars[6];
+         else $this->epic = null;
+         if(isset($vars['img'][0]) || isset($vars[7])) $this->img = $vars['img'][0]?? $vars[7];
+         else $this->img = null;
       }
    }
 
@@ -127,6 +130,28 @@ class Card extends Model implements \JsonSerializable
       catch(\PDOException $e) {
          error_log("ERROR on search for Card: " . $e->getMessage());
          return false;
+      }
+   }
+
+   /**
+    * RETURN ALL card with a especifc type
+    * @param string $type
+    * @return array
+    */
+   public function getAll($type){
+      if(!empty($type)){
+         $where = "type LIKE '".$type."'";
+         $order = "c.name ASC";
+         $stmt = $this->dao->select($where, $order);
+         $this->rows = $stmt->fetchAll(PDO::FETCH_NUM);
+
+         $return = array();
+         foreach($this->rows as $card){
+            $Card = new Card($card);
+            $return[] = $Card;
+         }
+
+         return $return;
       }
    }
 

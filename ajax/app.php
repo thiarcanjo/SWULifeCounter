@@ -5,6 +5,10 @@ use \SQL\Entity\Aspect;
 use \SQL\Entity\Card;
 use \SQL\Entity\Collection;
 use \UTILS\Session;
+use \UTILS\ENV;
+
+// LOAD GLOBAL VARS
+ENV::load(__DIR__);
 
 // AJAX response for APP
 if(isset($_GET['player'])){
@@ -34,56 +38,6 @@ if(isset($_GET['player'])){
                         error_log($msg);
                         echo $msg;
                     }
-                }
-                elseif(isset($_GET['card'])){
-                    $Card = new Card();
-                    $return = $Card->getByCode($_GET['card'],true);
-                    
-                    if($return){
-                        if (!empty($Card->Collection) && empty($Card->img)) {
-                            $Card->img = "https://swudb.com/images/cards/".$Card->Collection->code."/".$Card->number.".png";
-                            $collectionName = $Card->Collection->code;
-                            $imageUrl = $Card->img;
-                            $basePath = 'imgs/cards/';
-                            $collectionPath = $basePath . $collectionName;
-                            $ajaxPath = '../' . $collectionPath;
-            
-                            // Garante que a pasta da coleção exista
-                            if (!is_dir($ajaxPath)) {
-                                mkdir($ajaxPath, 0755, true);
-                            }
-            
-                            // Extrai o nome do arquivo da URL
-                            $filename = basename(parse_url($imageUrl, PHP_URL_PATH));
-                            $savePath = $ajaxPath . '/' . $filename;
-            
-                            // SAVE Card img on DB
-                            $Card->img = $collectionPath. '/' . $filename;
-                            $Card->save($Card);
-
-                            // CHECK IF CARD IMAGE ALREADY EXISTS
-                            if (!file_exists($savePath)) {
-                                $imageContent = @file_get_contents($imageUrl);
-                                if ($imageContent !== false) {
-                                    if (file_put_contents($savePath, $imageContent)) {
-                                        error_log("IMAGE SAVED: " . $savePath);
-                                    } else {
-                                        error_log("ERROR on SAVE CARD IMAGE: " . $savePath);
-                                    }
-                                } else {
-                                    error_log("ERROR ON DOWNLOAD CARD IMAGE: " . $imageUrl);
-                                }
-                            } else {
-                                error_log("CARD ALREADY SAVED: " . $Card->img);
-                            }
-                            
-                            $return['img'] = $Card->img;
-                        }
-            
-                        echo json_encode($return);
-                    }
-                    else echo json_encode(array('error' => 'ERROR ON GET CARD ROWS')); 
-
                 }
                 elseif(isset($_GET['update']) && isset($_GET['value'])){ // UPDATE Live game
                     switch($_GET['update']){
@@ -169,6 +123,62 @@ if(isset($_GET['player'])){
         }
         error_log($msg);
         echo $msg;
+    }
+}
+elseif(isset($_GET['card'])){
+    $Card = new Card();
+    if(!empty($_GET['type']) && ($_GET['type']=='base' || $_GET['type']=='leader')){
+        $return = $Card->getAll($_GET['type']);
+
+        echo json_encode($return);
+    }
+    else{
+        $return = $Card->getByCode($_GET['card'],true);
+
+        if($return){
+            if (!empty($Card->Collection) && empty($Card->img)) {
+                $Card->img = "https://swudb.com/images/cards/".$Card->Collection->code."/".$Card->number.".png";
+                $collectionName = $Card->Collection->code;
+                $imageUrl = $Card->img;
+                $basePath = 'imgs/cards/';
+                $collectionPath = $basePath . $collectionName;
+                $ajaxPath = '../' . $collectionPath;
+
+                // Garante que a pasta da coleção exista
+                if (!is_dir($ajaxPath)) {
+                    mkdir($ajaxPath, 0755, true);
+                }
+
+                // Extrai o nome do arquivo da URL
+                $filename = basename(parse_url($imageUrl, PHP_URL_PATH));
+                $savePath = $ajaxPath . '/' . $filename;
+
+                // SAVE Card img on DB
+                $Card->img = $collectionPath. '/' . $filename;
+                $Card->save($Card);
+
+                // CHECK IF CARD IMAGE ALREADY EXISTS
+                if (!file_exists($savePath)) {
+                    $imageContent = @file_get_contents($imageUrl);
+                    if ($imageContent !== false) {
+                        if (file_put_contents($savePath, $imageContent)) {
+                            error_log("IMAGE SAVED: " . $savePath);
+                        } else {
+                            error_log("ERROR on SAVE CARD IMAGE: " . $savePath);
+                        }
+                    } else {
+                        error_log("ERROR ON DOWNLOAD CARD IMAGE: " . $imageUrl);
+                    }
+                } else {
+                    error_log("CARD ALREADY SAVED: " . $Card->img);
+                }
+                
+                $return['img'] = $Card->img;
+            }
+
+            echo json_encode($return);
+        }
+        else echo json_encode(array('error' => 'ERROR ON GET CARD ROWS'));
     }
 }
 else{

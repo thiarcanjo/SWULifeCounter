@@ -1,75 +1,107 @@
+/* ADJUST GAME SCREEN SIZE */
 main{
-    display: flex;
-	flex-direction: column;
-    box-sizing: border-box;
-    width: 100%;
-    flex-grow: 1;
-}
-.top-menu{
-    display: flex;
-    height: 50px;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 10px;
-    flex-shrink: 0;
-}
-.main-container{
-    display: flex;
-    box-sizing: border-box;
-    flex-direction: column;
-    width: 100%;
-    height: auto;
-    text-align: center;
-    align-items: center;
-    justify-content: center;
-    border: none;
-	background-color: transparent;
-    flex-grow: 1;
+    height: calc(100% - 80px);
+    justify-content: flex-start;
 }
 
-.main-container .player_div{
+/* MENU */
+.top-menu{
     display: flex;
 	flex-direction: row;
-    box-sizing: border-box; /* inclui padding e borda na largura e altura do item */
-    flex-wrap: wrap;
-    width: 90%;
-    height: calc(45% - 20px);
-    margin-top: 5px;
-    margin-bottom: 5px;
+    align-items: center;
+    width: 100%;
+    height: 30px;
+    margin: 0;
+    padding-top: 2px;
+    border-bottom: 1px solid #FFF;
+    justify-content: center;
+    z-index: 10;
+}
+.top-menu div{
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    align-items: center;
+    height: 100%;
+    line-height: 100%;
+    font-size: clamp(10px, 12px, 14px);
+    color: #FFF;
+    cursor: pointer;
+}
+.top-menu .fa{
+    margin-right: 5px;
+}
+.top-menu .go-home{
+    justify-content: left;
+    padding-left: 10px;
+}
+.top-menu .clock {
+    justify-content: center;
+    align-self: center;
+}
+.top-menu .id{
+    justify-content: right;
+    padding-right: 10px;
+    font-weight: 600;
+    cursor: default;
+}
+.top-menu div:hover{
+    background-color: darkred;
+}
+
+/* MAIN CONTAINER PREMIER */
+.main-container{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: calc(100% - 30px);
+    justify-content: flex-start;
+    align-items: center;
+    border: none;
+    margin: 0;
+    padding: 5px 0;
+    overflow: hidden;
+}
+.main-container .player_div{
+    display: flex;
+	flex-direction: column;
+    width: 95%;
+    height: calc(50% - 20px - 10px);
+    margin: 5px 0;
     border-top: 1px solid #FFF;
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center top;
     background-image: transparent;
-    position: relative; /* Needed for absolute positioning of the overlay */
+    position: relative;
 }
-.main-container .player_div::before { /* Use ::before pseudo-element for the overlay */
+.main-container .player_div::before {
     content: "";
     position: absolute;
     bottom: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(to top, rgba(0, 0, 0, 1) 20%, transparent); /* Adjust opacity (0.7) as needed */
-    /* The higher the first rgba value, the darker the bottom part of the gradient */
+    background: linear-gradient(to top, rgba(0, 0, 0, 1) 20%, transparent);
 }
-.main-container .player_div > * { /* Ensure content is above the overlay */
-    position: relative; /* Elements inside the player_div will be on top of the overlay */
-    z-index: 1; /* Ensure content is above the overlay */
+.main-container .player_div > * {
+    position: relative;
+    z-index: 1;
 }
 
-.main-container .game-buttons{
+/* RESET BUTTON */
+.game-buttons{
     display: flex;
-    box-sizing: border-box;
     justify-content: center;
     align-items: center;
-    width: 90%;
-    height: 20px;
+    width: 100%;
+    height: 40px;
     margin: 5px 0;
 }
-.main-container .game-buttons .btn{
+.game-buttons .btn{
+    display: flex;
     width: 60px;
-    height: 40px;
+    height: 35px;
     justify-content: center;
     align-items: center;
     align-content: center;
@@ -79,30 +111,30 @@ main{
     cursor: pointer;
 }
 
+/* PLAYER DATA */
 .player_div .count{
-    height: 70%;
+    height: calc(100% - 80px);
+    margin: 0px;
 }
+
 .player_div .leader_data{
     display: flex;
-    box-sizing: border-box;
     flex-direction: row;
     justify-content: space-between;
     width: 100%;
-    height: 30%;
-    margin: 0px;
-    padding: 5px;
+    height: 80px;
+    margin: 0;
+    padding: 0;
     align-items: center;
     background-color: rgba(0, 0, 0,0.5); /* cor de fundo (ajuste conforme necessário) */
 }
-
 .player_div .leader_data .left{
     display: flex; /* Alinha leader-img e aspects lado a lado */
     flex-direction: row;
     align-items: center;
-    height: 100%;
     width: 70%;
+    height: 80px;
 }
-
 .player_div .leader_data .leader-img{
     display: flex;
     top: 0;
@@ -117,9 +149,8 @@ main{
     background-repeat: no-repeat;
     background-size: 400%;
 	background-position: -40px -25px; /* left top */
-	width: auto;
-    min-width: 70px;
-	height: 80%;
+	width: 70px;
+	height: 70px;
 }
 .player_div .leader_data .leader-img:hover{
     border-color: #F00;
@@ -151,12 +182,70 @@ main{
     z-index: 3;
 }
 
-/* MENU de SELEÇÂO */
+/* PLAYER 1 */
+#player_1{
+    transform: rotate(180deg);
+}
+
+/* EPIC BUTTON */
+.epic_token{
+    display: flex;
+    box-sizing: border-box;
+	padding: 5px;
+    flex-direction: column; /* Stack elements vertically */
+    justify-content: center;
+    align-items: center;
+    width: 30%;
+    height: 100%;
+    background-color: transparent;
+}
+.epic_token button{
+    border: none;
+    padding: 2px;
+	margin: 0;
+    background-color: transparent;
+    align-items: center;
+    border-radius: 5px;
+    width: auto;
+    height: 90%;
+    cursor: pointer;
+    justify-content: center;
+    filter: grayscale(100%); /* Imagem em tons de cinza */
+}
+.epic_token button img {
+    width: auto;
+    height: 100%;
+    object-fit: cover;
+    transition: opacity 0.3s ease; /* Transição para a imagem também */
+}
+.epic_token button:hover {
+    filter: none;
+
+}
+.epic_token button:hover img {
+    opacity: 0.9; /* Levemente mais transparente no hover */
+}
+.leader-img.epicUsed::before {
+    content: '';
+    position: absolute;
+    box-sizing: border-box;
+    padding: 5px;
+    top: 0;
+    left: 0;
+    background-size: 400%;
+	background-position: -40px -25px; /* left top */
+	width: 100%;
+	height: 100%;
+    background-image: inherit;
+    filter: grayscale(100%);
+    z-index: 0;
+}
+
+/* SELECT BASE AND LEADER MENU */
 .player_div .select_base_leader{
 	width: 100%;
 	display: flex;
 	flex-direction: column;
-	flex-wrap: wrap;
 	justify-content: space-between;
 	align-items: center;
     flex-grow: 1;
@@ -181,12 +270,12 @@ main{
 	flex: 1;
 	flex-wrap: wrap;
     border: none;
-    border-radius: 15px; /* Borda arredondada */
-    background-color: #30475E; /* Cor de fundo do botão */
-    color: #F5F7F8; /* Cor do texto do botão */
-    font-size: 2dvh; /* Tamanho da fonte */
+    border-radius: 15px;
+    background-color: #30475E;
+    color: #F5F7F8;
+    font-size: 2dvh;
     font-weight: 300;
-    cursor: pointer; /* Muda o cursor para indicar que é clicável */
+    cursor: pointer;
 	justify-content: center;
 	align-items: center;
     vertical-align: middle;
@@ -195,33 +284,4 @@ main{
 }
 .player_div .select_base_leader button:hover {
     background-color: darkred; /* Muda a cor de fundo ao passar o mouse */
-}
-
-#player_1{
-    transform: rotate(180deg);
-}
-
-.leader-img.epicUsed::before {
-    content: '';
-    position: absolute;
-    box-sizing: border-box;
-    padding: 5px;
-    top: 0;
-    left: 0;
-    background-size: 400%;
-	background-position: -40px -25px; /* left top */
-	width: 100%;
-	height: 100%;
-    background-image: inherit;
-    filter: grayscale(100%);
-    z-index: 0;
-}
-
-.epicToken-img{
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    width: auto;
-    height: 60%;
-    z-index: 1;
 }

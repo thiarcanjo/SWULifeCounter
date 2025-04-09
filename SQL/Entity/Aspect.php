@@ -20,7 +20,7 @@ class Aspect extends Model implements \JsonSerializable
    */
    public function __construct($vars = [])
    {
-      $this->path_class = "\SQL\Aspect";
+      $this->path_class = "\SQL\Entity\Aspect";
       $this->setDAO();
 
       if(!empty($vars))

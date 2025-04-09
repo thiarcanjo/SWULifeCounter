@@ -1,6 +1,8 @@
 const getUrl = window.location;
 const baseUrl = getUrl .protocol + "//" + getUrl.host + "/";// + getUrl.pathname.split('/')[1];
 const fileUrl = getUrl.pathname.split('/')[1];
+let Leaders = new Array();
+let Bases = new Array();
 
 /**
  * CALL game screen
@@ -8,11 +10,9 @@ const fileUrl = getUrl.pathname.split('/')[1];
 function callGame(){
     var selectedFormat = document.querySelector('input[name="formato"]:checked').value;
     var selectedStore = document.querySelector('select[id="store"]').value;
-    if(selectedFormat == "premier"){
-        if(selectedStore != '') window.location.href = selectedFormat+'.php?store='+selectedStore;
-        else window.location.href = selectedFormat+'.php';
-    }
-    else window.location.href = selectedFormat+'.html';
+
+    if(selectedStore != '') window.location.href = selectedFormat+'.php?store='+selectedStore;
+    else window.location.href = selectedFormat+'.php';
 }
 
 /**
@@ -26,7 +26,7 @@ function SearchBaseInfo(sBase){
     if(Array.isArray(sBase)) code = sBase.value
     else code = sBase;
 
-    for(const item of base){
+    for(const item of Bases){
         if(item.code == code){
             return item;
         }
@@ -44,7 +44,7 @@ function SearchLeaderInfo(sLeader){
     if(Array.isArray(sLeader)) code = sLeader.value
     else code = sLeader;
 
-    for(const item of leader){
+    for(const item of Leaders){
         if(item.code == code){
             return item;
         }
@@ -57,22 +57,26 @@ function SearchLeaderInfo(sLeader){
  * @param {string} bases 
  * @return Array
  **/
-function loadBases(bases = ""){
+async function loadBases(bases = ""){
     if(!(Array.isArray(bases))) var bases = document.getElementsByClassName("option_selected");
     else bases.shift();
     
-    for(const e of bases){
-        base.sort((a, b) => a.name.localeCompare(b.name));
-        for(const item of base){
-            var option = document.createElement("option");
-            option.value = item.collection.code+item.number;
-            option.text = `${item.name} (${item.collection.code})`;
-
-            e.add(option);
+    var result = getCard('all','base').then(dbBases => {
+        for(const e of bases){
+            //base.sort((a, b) => a.name.localeCompare(b.name));
+            for(const item of dbBases){
+                if (!(item.code in Bases)) Bases.push(item);
+                var option = document.createElement("option");
+                option.value = item.Collection.code + item.number;
+                option.text = `${item.name} (${item.Collection.code})`;
+                e.add(option);
+            }
         }
-    }
+    
+        if(Array.isArray(bases)) return bases;
+    });
 
-    if(Array.isArray(bases)) return bases;
+    return result;
 }
 
 /**
@@ -81,29 +85,34 @@ function loadBases(bases = ""){
  * @param {string} leaders
  * @return Array
  **/
-function loadLeaders(leaders = ""){
+async function loadLeaders(leaders = ""){
     if(!(Array.isArray(leaders))) var leaders = document.getElementsByClassName("option_selected");
     else if(leaders.length==3) leaders.shift();
     
-    for(const e of leaders){
-        leader.sort((a, b) => a.name.localeCompare(b.name));
-        for(const item of leader){
-            var option = document.createElement("option");
-            option.value = item.collection.code+item.number;
-            option.text = `${item.name} (${item.collection.code})`;
-
-            e.add(option);
+    var result = getCard('all','leader').then(dbLeaders => {
+        for(const e of leaders){
+            //leader.sort((a, b) => a.name.localeCompare(b.name));
+            for(const item of dbLeaders){
+                if (!(item.code in Leaders)) Leaders.push(item);
+                var option = document.createElement("option");
+                option.value = item.Collection.code + item.number;
+                option.text = `${item.name} (${item.Collection.code})`;
+    
+                e.add(option);
+            }
         }
-    }
+    
+        if(Array.isArray(leaders)) return leaders;
+    });
 
-    if(Array.isArray(leaders)) return leaders;
+    return result;
 }
 
 /**
  * Volta para o MENU inicial
  **/
 function goHome(){
-    if(confirm("Finish this game and go back to the Home?")) history.back();
+    if(confirm("Finish this game and go back to the Home?")) window.location.href = baseUrl;
 }
 
 /**
@@ -184,7 +193,7 @@ function updateEpicAction(btn,epicValue){
     var player = thisButton[1];
     var epicType = thisButton[2];
     
-    if(fileUrl != 'twinsuns.html'){
+    if(fileUrl != 'twinsuns.php'){
         $.ajax({
             url: baseUrl + 'ajax/app.php',
             method: 'GET',
@@ -211,30 +220,30 @@ function updateEpicAction(btn,epicValue){
  * @param {string} player 
  * @param {string} code 
  */
-async function getCard(player,code){
+async function getCard(code,type = null){
     try{
       const response = await $.ajax({
         url: baseUrl + 'ajax/app.php',
         method: 'GET',
         data: {
-          player: player,
-          card: code
+          card: code,
+          type: type
         },
         dataType: 'json',
         xhrFields: {
           withCredentials: true
         },
         error: function (error, txtStatus, errorThrown) {
-          console.error("Error "+player+":", txtStatus, errorThrown);
-          console.error("Resposta do servidor "+player+":", error.responseText);
+          console.error("Error :", txtStatus, errorThrown);
+          console.error("Resposta do servidor :", error.responseText);
         }
       });
   
       return response;
     }
     catch (error){
-      console.error("Error " + player + ":", error.statusText, error.thrown);
-      console.error("Resposta do servidor " + player + ":", error.responseText);
+      console.error("Error :", error.statusText, error.thrown);
+      console.error("Resposta do servidor :", error.responseText);
       return null;
     }
 }

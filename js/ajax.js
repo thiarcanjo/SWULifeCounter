@@ -8,10 +8,11 @@ async function setPlayerPremierDATA(playerData,playerID){
   var dbBase   = '';
   var dbLeader = '';
   var playerDIV   = document.getElementById(playerID);
+  playerDIV.innerHTML = '';
   
   // GET BASES
   try{
-    dbBase = await getCard(playerID, playerData[0]);
+    dbBase = await getCard(playerData[0]);
   }
   catch(error){
     console.error("ERROR on get a Card: ", error);
@@ -22,13 +23,17 @@ async function setPlayerPremierDATA(playerData,playerID){
   playerDIV.style.setProperty('background-image','url("'+dbBase.img+'")');
 
   //SET LEADER na tela
-  var leader_data = playerDIV.getElementsByClassName("leader_data");
+  var count = document.createElement('div');
+  count.className = "count w10";
+  playerDIV.append(count);
+  var leader_data = document.createElement('div');
+  leader_data.className = "leader_data";
   var leftContent = document.createElement('div');
   leftContent.className = 'left';
 
   //GET LEADERS
   if(playerData[1] != ''){
-      dbLeader = await getCard(playerID, playerData[1]);
+      dbLeader = await getCard(playerData[1]);
       var leader_img = document.createElement('div');
       leader_img.className = "leader-img "+playerID+" leader";
       leader_img.style.setProperty('background-image', 'url("'+dbLeader.img+'")');
@@ -56,11 +61,12 @@ async function setPlayerPremierDATA(playerData,playerID){
           aspects.append(aspect_leader);
       };
       leftContent.append(aspects);
-      leader_data[0].append(leftContent);
+      leader_data.append(leftContent);
   }
 
   // VERIFICA se a BASE tem EPIC ACTION e ADD o TOKEN
-  if(dbBase.epic) leader_data[0].append(addEpicToken(playerID));
+  if(dbBase.epic) leader_data.append(addEpicToken(playerID));
+  playerDIV.append(leader_data);
 
   addCounter(playerID);
 }
@@ -79,12 +85,14 @@ function resetScore(){
     if (epic_token_1){
       var btnEpic_1 = epic_token_1.querySelector('.btn');
       btnEpic_1.style = "filter: grayscale(100%);";
-      updateEpicAction(btnEpic_1,'false');
+      if(leader1) updateEpicAction(btnEpic_1,'false');
     }
     count_now_1.innerHTML = 0;
-    updateEpicAction(leader1,'false');
-    if(epicLeader1) epicLeader1.remove();
-    leader1.classList.remove('epicUsed');
+    if(leader1){
+      updateEpicAction(leader1,'false');
+      leader1.classList.remove('epicUsed');
+      if(epicLeader1) epicLeader1.remove();
+    }
 
     //PLAYER 2
     var player2DIV = document.getElementById('player_2');
@@ -95,21 +103,24 @@ function resetScore(){
     if (epic_token_2){
       var btnEpic_2 = epic_token_2.querySelector('.btn');
       btnEpic_2.style = "filter: grayscale(100%);";
-      updateEpicAction(btnEpic_2,'false');
+      if(leader2) updateEpicAction(btnEpic_2,'false');
     }
     count_now_2.innerHTML = 0;
-    updateEpicAction(leader2,'false');
-    if(epicLeader2) epicLeader2.remove();
-    leader2.classList.remove('epicUsed');
+    if(leader2){
+      updateEpicAction(leader2,'false');
+      leader2.classList.remove('epicUsed');
+      if(epicLeader2) epicLeader2.remove();
+    }
   }
 }
 
 /**
 * Exibe menu para seleção de Bases e Líderes
 */
-function selectBasesLeaders(){
-  var bases = Array();
-  var leaders = Array();
+async function selectBasesLeaders(){
+  var bases = new Array();
+  var leaders = new Array();
+  
   for(let i=1;i<=2;i++){
       var thisBaseSelect = document.createElement('select');
       thisBaseSelect.id = 'base_p'+i;
@@ -126,13 +137,12 @@ function selectBasesLeaders(){
   }
 
   // BASES and LEADERS Options
-  bases = loadBases(bases);
-  leaders = loadLeaders(leaders);
+  bases = await loadBases(bases);
+  leaders = await loadLeaders(leaders);
   
   for(let i=0;i<bases.length;i++){
       var thisPlayer = document.getElementById('player_'+(i+1));
-      var thisCount = thisPlayer.getElementsByClassName('count');
-      thisCount[0].innerHTML = ''; // LIMPA CONTADORES
+      thisPlayer.innerHTML = ''; // LIMPA CONTADORES
 
       var player = document.createElement('div');
       player.className = 'select_base_leader';
@@ -154,7 +164,7 @@ function selectBasesLeaders(){
       player.append(sendButton);
       player.append(blankButton);
 
-      thisCount[0].append(player);
+      thisPlayer.append(player);
   }
 
   // AJAX call to CLEAN SESSION
@@ -185,12 +195,18 @@ function blankPlayerSelection(button){
     for(let id = 1; id<= 2; id++){
       var playerID = 'player_'+id;
       var playerDIV = document.getElementById(playerID);
-      var count = playerDIV.querySelector('.count');
-      var formSelect = count.querySelector('.select_base_leader');
-      count.removeChild(formSelect);
-      
-      var leader_data = playerDIV.getElementsByClassName("leader_data");
-      leader_data[0].append(addEpicToken(playerID));
+      var formSelect = playerDIV.querySelector('.select_base_leader');
+      playerDIV.removeChild(formSelect);
+
+      //SET CLEAN TABLE
+      var count = document.createElement('div');
+      count.className = "count w10";
+      playerDIV.append(count);
+
+      var leader_data = document.createElement('div');
+      leader_data.className = "leader_data";
+      leader_data.append(addEpicToken(playerID));
+      playerDIV.append(leader_data);
 
       addCounter(playerID);
     }

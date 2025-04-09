@@ -6,6 +6,8 @@ use \UTILS\ENV;
 
 // LOAD GLOBAL VARS
 ENV::load(__DIR__);
+define('URL', getenv('URL'));
+define('APP_NAME', getenv('APP_NAME'));
 
 if(isset($_GET['session'])){
     if(!(Session::close())) header("HTTP/1.1 400 Bad Request");
@@ -30,11 +32,11 @@ elseif(Session::start()){// NO AJAX
     <link rel="stylesheet" href="./css/sizes.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/solid.css"/>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/fontawesome.css"/>
-    <title>SWU: Life Counter - Premier</title>
+    <title><?=APP_NAME;?> - Premier</title>
 </head>
 <body>
     <main>
-        <div class="top-menu w10">
+        <div class="top-menu">
             <div class="go-home w2" onclick="goHome();">
                 <span class="fa fa-home"></span><span>BEGIN</span>
             </div>
@@ -52,7 +54,7 @@ elseif(Session::start()){// NO AJAX
             </div>
             <div class="game-buttons">
                 <span class="btn reset" href="#" onclick="resetScore();">
-                    <i class="fa fa-redo fa-2x"></i>
+                    <i class="fa fa-redo"></i>
                 </span>
             </div>
         </div>
@@ -67,10 +69,12 @@ elseif(Session::start()){// NO AJAX
     <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/nosleep/0.12.0/NoSleep.min.js"></script>
     <script src="./js/default.js"></script>
-    <script src="./js/bd.js"></script>
     <script src="./js/counter.js"></script>
     <script src="./js/ajax.js"></script>
     <script src="./js/clock.js"></script>
+    <?php
+    if(isset($_GET['size'])) echo "<script>getWindowSize();</script>";
+    ?>
 </body>
 
 <?php
