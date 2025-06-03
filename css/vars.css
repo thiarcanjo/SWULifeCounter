@@ -22,3 +22,8 @@
     --player-3: darkred;
     --player-4: darkolivegreen;
 }
+
+@font-face {
+  font-family: 'Akira'; /* Escolha um nome para sua fonte (pode ser qualquer um) */
+  src: url('../fonts/Akira Expanded Demo.otf') format('opentype'); /* Caminho para o arquivo .otf */
+}

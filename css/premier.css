@@ -1,6 +1,6 @@
 /* ADJUST GAME SCREEN SIZE */
 main{
-    height: calc(100% - 80px);
+    height: calc(100% - 40px);
     justify-content: flex-start;
 }
 
@@ -253,7 +253,7 @@ main{
 .player_div .select_base_leader > *:last-child {
     margin-right: 0;
 }
-.player_div .select_base_leader select{
+.player_div .select_base_leader select, .player_div .select_base_leader input{
 	width: 100%;
 	display: flex;
 	flex-wrap: wrap;
@@ -284,4 +284,45 @@ main{
 }
 .player_div .select_base_leader button:hover {
     background-color: darkred; /* Muda a cor de fundo ao passar o mouse */
+}
+
+.historic-btn{
+    display: none;
+    position: absolute;
+    top: 44%;
+    right: 20px;
+    height: 40px;
+    width: 40px;
+    padding: 5px;
+    text-align: center;
+    vertical-align: middle;
+    z-index: 1000;
+    border-radius: 15%;
+    background-color: rgba(0, 0, 0, 0.7);
+    opacity: 0.7;
+    cursor: pointer;
+    transition: opacity 0.9s ease;
+}
+.historic-btn:hover {
+    opacity: 0.9;
+}
+.historic-btn i {
+    font-size: 30px;
+    color: #FFF;
+}
+
+/* SWEET POPUP */
+.swal2-container{
+    position: absolute;
+    width: auto;
+    top: calc(50vh - 25%);
+    height: 50vh;
+    max-height: 50vh;
+    overflow: hidden;
+    z-index: 9999;
+}
+.swal2-html-container{
+    font-size: 11px;
+    text-align: left;
+    overflow: auto;
 }

@@ -12,11 +12,13 @@ use \PDO;
 class Premier extends Model
 {
    public $premier_id;
+   public $playerName = array('','');
    public $base = array('','');
    public $leader = array('','');
    public $life = array(0,0);
    public $base_epic = array(false,false);
    public $leader_epic = array(false,false);
+   public $historic = null;
    public $datetime = null;
    public $Store = null;
 
@@ -32,6 +34,8 @@ class Premier extends Model
       if(!empty($vars))
       {
          $this->premier_id       = $vars['premier_id'] ?? null;
+         $this->playerName[0]    = $vars['player_1'] ?? null;
+         $this->playerName[1]    = $vars['player_2'] ?? null;
          $this->base[0]          = $vars['base_1'] ?? '';
          $this->base[1]          = $vars['base_2'] ?? '';
          $this->leader[0]        = $vars['leader_1'] ?? '';
@@ -42,6 +46,7 @@ class Premier extends Model
          $this->base_epic[1]     = $vars['base_2_epic'] ?? false;
          $this->leader_epic[0]   = $vars['leader_1_epic'] ?? false;
          $this->leader_epic[1]   = $vars['leader_2_epic'] ?? false;
+         $this->historic         = $vars['historic'] ?? null;
          $this->datetime         = $vars['datetime'] ?? date("Y-m-d H:i:s");
          if(isset($vars['Store']) && !empty($vars['Store'])) $this->Store = $this->setStore($vars['Store']);
          else $this->Store = null;
@@ -63,6 +68,8 @@ class Premier extends Model
    public function set(Premier $Premier)
    {
        if(!empty($Premier->premier_id)) $this->premier_id         = $Premier->premier_id;
+       if(!empty($Premier->playerName[0])) $this->playerName[0]   = $Premier->playerName[0];
+       if(!empty($Premier->playerName[1])) $this->playerName[1]   = $Premier->playerName[1];
        if(!empty($Premier->base[0])) $this->base[0]               = $Premier->base[0];
        if(!empty($Premier->base[1])) $this->base[1]               = $Premier->base[1];
        if(!empty($Premier->leader[0])) $this->leader[0]           = $Premier->leader[0];
@@ -73,6 +80,7 @@ class Premier extends Model
        if(!empty($Premier->base_epic[1])) $this->base_epic[1]     = $Premier->base_epic[1];
        if(!empty($Premier->leader_epic[0])) $this->leader_epic[0] = $Premier->leader_epic[0];
        if(!empty($Premier->leader_epic[1])) $this->leader_epic[1] = $Premier->leader_epic[1];
+       if(!empty($Premier->historic)) $this->historic             = $Premier->historic;
        if(!empty($Premier->datetime)) $this->datetime             = $Premier->datetime;
        if(!empty($Premier->Store)){
          if($Premier->Store instanceof Store) $this->Store = $Premier->Store;
@@ -98,11 +106,12 @@ class Premier extends Model
     * @param string $base
     * @param string $leader
     */
-   public function setPlayer($player,$base,$leader)
+   public function setPlayer($player,$base,$leader, $playerName = null)
    {
       switch($player)
       {
          case "player_1":
+            $this->playerName[0] = $playerName;
             $this->base[0] = $base;
             $this->leader[0] = $leader;
             $this->life[0] = 0;
@@ -110,6 +119,7 @@ class Premier extends Model
             $this->leader_epic[0] = false;
             break;
          case "player_2":
+            $this->playerName[1] = $playerName;
             $this->base[1] = $base;
             $this->leader[1] = $leader;
             $this->life[1] = 0;
@@ -117,6 +127,7 @@ class Premier extends Model
             $this->leader_epic[1] = false;
             break;
       }
+      $this->historic = "BEGIN GAME <br> ********** <br>";
 
       if($store = Session::getStore()) $this->Store = $this->setStore($store);
       else $this->Store = null;
@@ -173,15 +184,25 @@ class Premier extends Model
    }
 
    /**
+    * GET Historic
+    * @return string
+    */
+   public function getHistoric()
+   {
+      return $this->historic;
+   }
+
+   /**
     * UPDATE life
     */
-   public function updateGame($player,int $base_life = null, $base_epic = null, $leader_epic = null)
+   public function updateGame($player,int $base_life = null, $base_epic = null, $leader_epic = null, $historic = null)
    {
       if($player == "player_1") $id = 0;
       elseif($player == "player_2") $id = 1;
       if($base_life !== null) $this->life[$id] = $base_life;
       if($base_epic === "false" || $base_epic === "true")      $this->base_epic[$id]   = filter_var($base_epic, FILTER_VALIDATE_BOOLEAN);
       if($leader_epic === "false" || $leader_epic === "true")  $this->leader_epic[$id] = filter_var($leader_epic, FILTER_VALIDATE_BOOLEAN);
+      if($historic !== null) $this->historic = $historic;
 
       $this->datetime = date("Y-m-d H:i:s");
       

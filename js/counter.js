@@ -1,5 +1,7 @@
 // NO SLEEP
 const noSleep = new NoSleep();
+let baseLife1 = 0;
+let baseLife2 = 0;
 
 /**
  * MOSTRA o contador de vida na mesa do player selecionado
@@ -104,54 +106,91 @@ function historyCount(btn,btnType){
 // UPDATE LIFE
 document.addEventListener('DOMContentLoaded', function() {
     function updateLife(){
+        var updateHistoric = false;
         var player1Life = document.getElementById('count-now_player_1');
         var player2Life = document.getElementById('count-now_player_2');
 
         if(player1Life){
             player1Life = player1Life.innerHTML;
-            // AJAX call UPDATE LIFE
-            $.ajax({
-                url: baseUrl + 'ajax/app.php',
-                method: 'GET',
-                data: {
-                    player: 'player_1',
-                    update: 'base_life',
-                    value: player1Life
-                },
-                dataType: 'text',
-                xhrFields: {
-                    withCredentials: true
-                },
-                error: function (error, txtStatus, errorThrown) {
-                    console.error("Error player_1:", txtStatus, errorThrown);
-                    console.error("Resposta do servidor player_1:", error.responseText);
-                }
-            });
+            if(player1Life != baseLife1) {
+                baseLife1 = player1Life;
+                updateHistoric = true;
+                // AJAX call UPDATE LIFE
+                $.ajax({
+                    url: baseUrl + 'ajax/app.php',
+                    method: 'GET',
+                    data: {
+                        player: 'player_1',
+                        update: 'base_life',
+                        value: player1Life
+                    },
+                    dataType: 'text',
+                    xhrFields: {
+                        withCredentials: true
+                    },
+                    error: function (error, txtStatus, errorThrown) {
+                        console.error("Error player_1:", txtStatus, errorThrown);
+                        console.error("Resposta do servidor player_1:", error.responseText);
+                    }
+                });
+            }
         }
 
         // AJAX call UPDATE LIFE PLAYER_2
         if(player2Life){
             player2Life = player2Life.innerHTML;
+            if(player2Life != baseLife2) {
+                baseLife2 = player2Life;
+                updateHistoric = true;
+                $.ajax({
+                    url: baseUrl + 'ajax/app.php',
+                    method: 'GET',
+                    data: {
+                        player: 'player_2',
+                        update: 'base_life',
+                        value: player2Life
+                    },
+                    dataType: 'text',
+                    xhrFields: {
+                        withCredentials: true
+                    },
+                    error: function (error, txtStatus, errorThrown) {
+                        console.error("Error player_2:", txtStatus, errorThrown);
+                        console.error("Resposta do servidor player_2:", error.responseText);
+                    }
+                });
+            }
+        }
+
+        // UPDATE Historic
+        if(updateHistoric) {
             $.ajax({
                 url: baseUrl + 'ajax/app.php',
                 method: 'GET',
                 data: {
                     player: 'player_2',
-                    update: 'base_life',
-                    value: player2Life
+                    update: 'historic',
+                    value: 'update',
+                    base1: player1Life,
+                    base2: player2Life
                 },
                 dataType: 'text',
                 xhrFields: {
                     withCredentials: true
                 },
+                success: function (response) {
+                    var historyBtn = document.getElementsByClassName('historic-btn');
+                    historyBtn[0].style.display = 'flex';
+                },
                 error: function (error, txtStatus, errorThrown) {
-                    console.error("Error player_2:", txtStatus, errorThrown);
-                    console.error("Resposta do servidor player_2:", error.responseText);
+                    console.error("Error historic:", txtStatus, errorThrown);
+                    console.error("Resposta do servidor historic:", error.responseText);
                 }
             });
+            updateHistoric = false;
         }
     }
 
-    setInterval(updateLife, 5000);
+    setInterval(updateLife, 6000);
     noSleep.enable();
 });

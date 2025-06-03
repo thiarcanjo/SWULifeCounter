@@ -134,6 +134,34 @@ class Card extends Model implements \JsonSerializable
    }
 
    /**
+    * SEARCH for code
+    * @param string $code
+    */
+   public function getByName($name)
+   {
+      try {
+         $where = 'c.name LIKE "%'.$name.'%"';
+         if($stmt = $this->dao->select($where)){
+            $this->rows = $stmt->fetchAll(PDO::FETCH_NUM);
+            $return = array();
+            foreach($this->rows as $card){
+               $Card = new Card($card);
+               $return[] = $Card;
+            }
+
+            return $return;
+         }
+         else{
+            return false;
+         }
+      }
+      catch(\PDOException $e) {
+         error_log("ERROR on search for Card: " . $e->getMessage());
+         return false;
+      }
+   }
+
+   /**
     * RETURN ALL card with a especifc type
     * @param string $type
     * @return array

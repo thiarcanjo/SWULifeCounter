@@ -118,10 +118,18 @@ function resetScore(){
 * Exibe menu para seleção de Bases e Líderes
 */
 async function selectBasesLeaders(){
+  var playerNames = new Array();
   var bases = new Array();
   var leaders = new Array();
   
   for(let i=1;i<=2;i++){
+      var thisPlayerName = document.createElement('input');
+      thisPlayerName.id = 'player_name_p'+i;
+      thisPlayerName.className = 'input_name';
+      thisPlayerName.placeholder = 'Type your name';
+
+      playerNames[i] = thisPlayerName;
+
       var thisBaseSelect = document.createElement('select');
       thisBaseSelect.id = 'base_p'+i;
       thisBaseSelect.className = 'option_selected';
@@ -148,6 +156,7 @@ async function selectBasesLeaders(){
       player.className = 'select_base_leader';
       player.append(bases[i]);
       player.append(leaders[i]);
+      player.append(playerNames[i+1]);
 
       var sendButton = document.createElement('button');
       sendButton.type = 'submit';
@@ -217,6 +226,7 @@ function sendPlayerSelection(button){
   var playerID = button.classList;
   var playerDIV = document.getElementById(playerID[0]);
   var selectedInfo = playerDIV.getElementsByTagName('select');
+  var selectedPlayer = playerDIV.getElementsByClassName('input_name');
   
   if(selectedInfo[0].value != ''){
     // AJAX call SAVE DATA
@@ -228,6 +238,7 @@ function sendPlayerSelection(button){
         player: playerID[0],
         base : selectedInfo[0].value,
         leader: selectedInfo[1].value,
+        playerName : selectedPlayer[0].value,
         store: getUrlParameter('store')
       },
       dataType: 'text',
@@ -247,6 +258,46 @@ function sendPlayerSelection(button){
       }
     });
   }
+}
+
+/**
+ * SHOW Hitoric off base damages
+ */
+function showHistoric(){
+  //GET Historic
+    $.ajax({
+      url: baseUrl+'ajax/app.php',
+      method: 'GET',
+      data:
+      {
+        player: 'player_1',
+        historic : ''
+      },
+      dataType: 'text',
+      xhrFields: {
+          withCredentials: true
+      },
+      success: function (result)
+      {
+        Swal.fire({
+          title: "<strong>Game History:</strong>",
+          html: result,
+          showCloseButton: true,
+          showConfirmButton: false,
+          heightAuto: false,
+          customClass:{
+            heightAuto: false
+          }
+        });
+      },
+      error: function (error,txtStatus,errorThrown)
+      {
+        console.error("Error:", txtStatus, errorThrown);
+        console.error("Resposta do servidor:", error.responseText);
+        
+        selectBasesLeaders();
+      }
+    });
 }
 
 selectBasesLeaders();

@@ -63,6 +63,8 @@ class PremierDAO
    public function insert(Premier $entity)
    {
       $values['premier_id']    = $entity->premier_id;
+      $values['player_1']      = $entity->playerName[0];
+      $values['player_2']      = $entity->playerName[1];
       $values['base_1']        = $entity->base[0];
       $values['base_2']        = $entity->base[1];
       $values['leader_1']      = $entity->leader[0];
@@ -73,6 +75,7 @@ class PremierDAO
       $values['base_2_epic']   = $entity->base_epic[1];
       $values['leader_1_epic'] = $entity->leader_epic[0];
       $values['leader_2_epic'] = $entity->leader_epic[1];
+      $values['historic']      = $entity->historic;
       $values['datetime']      = $entity->datetime;
       if($entity->Store instanceof Store) $values['Store'] = $entity->Store->code;
       else $values['Store'] = null;
@@ -97,6 +100,8 @@ class PremierDAO
     */
    public function update(Premier $entity)
    {
+      $values['player_1']      = $entity->playerName[0];
+      $values['player_2']      = $entity->playerName[1];
       $values['base_1']        = $entity->base[0];
       $values['base_2']        = $entity->base[1];
       $values['leader_1']      = $entity->leader[0];
@@ -107,6 +112,7 @@ class PremierDAO
       $values['base_2_epic']   = $entity->base_epic[1];
       $values['leader_1_epic'] = $entity->leader_epic[0];
       $values['leader_2_epic'] = $entity->leader_epic[1];
+      $values['historic']      = $entity->historic;
       $values['datetime']      = $entity->datetime;
       if($entity->Store instanceof Store) $values['Store'] = $entity->Store->code;
       else $values['Store'] = 'null';

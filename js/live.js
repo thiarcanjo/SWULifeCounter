@@ -16,6 +16,7 @@ $(document).ready(function()
       success: function (result){
         $('#list_games table tbody').empty();
         result.forEach(item => {
+          console.log(item);
           var newLine = document.createElement('tr');
           newLine.setAttribute('class','premier_game');
           newLine.setAttribute('id',item.premier_id);
@@ -26,6 +27,11 @@ $(document).ready(function()
           if(item.Store) premierIdCell.textContent += "("+item.Store.name+") ";
           premierIdCell.textContent += item.premier_id;
           newLine.appendChild(premierIdCell);
+
+          var playerName1Cell = document.createElement('td');
+          playerName1Cell.setAttribute('class','player_1_name');
+          playerName1Cell.textContent = item.playerName[0];
+          newLine.appendChild(playerName1Cell);
 
           var base1Cell = document.createElement('td');
           base1Cell.className = "";
@@ -80,6 +86,11 @@ $(document).ready(function()
           });
           base2Cell.append(base2_img);;
           newLine.appendChild(base2Cell);
+
+          var playerName2Cell = document.createElement('td');
+          playerName2Cell.setAttribute('class','player_2_name');
+          playerName2Cell.textContent = item.playerName[1];
+          newLine.appendChild(playerName2Cell);
 
           $('#list_games table tbody').append(newLine);
         });
